@@ -1,4 +1,4 @@
-@extends('all.father')
+@extends('herencia.father')
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,17 +8,15 @@
 
         <link rel="icon" href="{{ asset('img/favicon.png')}}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('../../css/app.css')}}">
 
-        <title>Plantilla1</title>
+        <title>Inicio de sesión</title>
 
     </head>
 
     <body>
         <!--container login-->
-            @section('content')
         <div class="container-sm">
-            <form action="{{ route('auth.authenticate') }}" method="POST">
+            <form  action="{{ route('ruta_login') }}" method="POST">
                 @csrf
                     <div class="boton">
                         <!--login-->
@@ -50,6 +48,5 @@
                     <p>¿Aùn no tienes una cuenta? puedes registrarse <a href="register">aquì</a></p>
             </form>
         </div>
-        @endsection
     </body>     
 </html>
