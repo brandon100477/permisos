@@ -30,8 +30,8 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::post('/register/cargo', 'registrar')->name('ruta_cargo'); 
 
         //Ruta de la vista principal
-        Route::post('/Principal', 'principal')->name('ruta_principal') ->middleware('auth') ;
-        Route::get('/Principal', 'principal')->name('ruta_principal') ->middleware('auth') ;
+        Route::post('/Principal', 'principal')->name('ruta_principal');
+        Route::get('/Principal', 'principal')->name('ruta_principal')->middleware('auth');
 
         // cierre de sesión
         Route::post('/logout', 'logout')->name('auth.logout')->middleware('auth');

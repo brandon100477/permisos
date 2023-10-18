@@ -9,15 +9,8 @@
 <body>
     @section('content')
 
-    @role('admin')
-    <p>Vista del administrador</p>
-    @endrole
+    <p>General para la empresa "1" empleado</p>
 
-    @role('empresario')
-    <p>Se hicieron bien las rutas. Empleados</p>
-    @endrole
-
-    <p>General</p>
 </body>
 @endsection
 </html>
