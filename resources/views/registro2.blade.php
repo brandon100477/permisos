@@ -34,7 +34,7 @@
                             <br>
 
 
-                <label name="empresa" id="empresa" class="textos"><h5>Empresa:</h5></label><br>
+                <label name="empresa" id="empresa" class="textos"><h5>Seleccione la Empresa:</h5></label><br>
                             <select type="submit" id="empresa" name="empresa" class="select" value="" required>	
                                 <option selected readonly value="">Seleccione una categoria</option>
                                 <option value="1">Cedicaf</option>
@@ -43,7 +43,7 @@
                             <br> 
                             <br>
 
-                <label name="area" id="area" class="textos"><h5>Area:</h5></label><br>
+                <label name="area" id="area" class="textos"><h5>Seleccione el area:</h5></label><br>
                             <select type="submit" id="area" name="area" class="select" value="" required>	
                                 <option selected readonly value="">Seleccione un area</option>
                                 <option value="1">Asistencial</option>
@@ -60,12 +60,24 @@
                                 <option value="12">Gerencia médica</option>
                             </select>
                             <br> 
-                            <br> 
+                            <br>
 
-                <h5 name="cargo" id="cargo"class="textos" >3. Cargo: </h5>
-                <input type="text" class=" form-control @error('cargo') is-invalid @enderror" name="cargo" id="cargo" placeholder="Respuesta: " required>
-                <label for="cargo"></label>
-                @error('cargo')
+                            <label name="cargo" id="cargo" class="textos"><h5>Seleccione su cargo:</h5></label><br>
+                            <select type="submit" id="cargo" name="cargo" class="select" value="" required>	
+                                <option selected readonly value="">Seleccione una categoria</option>
+                                <option value="1">Empleados</option>
+                                <option value="2">Líderes</option>
+                                <option value="3">Directores</option>
+                                <option value="4">Gerentes</option>
+                                <option value="5">Vicepresidentes</option>
+                            </select>
+                            <br> 
+                            <br>
+
+                <h5 name="especifi" id="especifi"class="textos" >Especificación del cargo: </h5>
+                <input type="text" class=" form-control @error('especifi') is-invalid @enderror" name="especifi" id="especifi" placeholder="Empleado - Tecnología - Líder de... - Director de... " required>
+                <label for="especifi"></label>
+                @error('especifi')
                 {{ $message }}
                 @enderror
                 <br>

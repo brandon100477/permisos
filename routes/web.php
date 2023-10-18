@@ -22,16 +22,16 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::get('/', 'login')->name('ruta_login');
 
         // 1° parte del Registro (Datos personales)
-        Route::get('/register', 'register')->name('ruta_registrar')/* ->middleware('auth') */; //GET:Se envían los datos por URL
-        Route::post('/register', 'register')->name('ruta_registrar')/* ->middleware('auth') */; //POST:Se envían los datos de forma oculta
+        Route::get('/register', 'register')->name('ruta_registrar'); //GET:Se envían los datos por URL
+        Route::post('/register', 'register')->name('ruta_registrar'); //POST:Se envían los datos de forma oculta
 
          // 2° parte del Registro (Datos de la empresa)
         Route::get('/register/cargo', 'registrar')->name('ruta_cargo');
         Route::post('/register/cargo', 'registrar')->name('ruta_cargo'); 
 
         //Ruta de la vista principal
-        Route::post('/Principal', 'principal')->name('ruta_principal');
-        Route::get('/Principal', 'principal')->name('ruta_principal');
+        Route::post('/Principal', 'principal')->name('ruta_principal') ->middleware('auth') ;
+        Route::get('/Principal', 'principal')->name('ruta_principal') ->middleware('auth') ;
 
         // cierre de sesión
         Route::post('/logout', 'logout')->name('auth.logout')->middleware('auth');

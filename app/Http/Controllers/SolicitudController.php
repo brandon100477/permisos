@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\{permisos, personas, empresa};
 use Illuminate\Support\Facades\{Auth, hash};
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 use Illuminate\Http\Request;
 
@@ -72,13 +74,42 @@ class SolicitudController extends Controller
 
     public function principal(Request $request)
     {
+
         $registro = new empresa();
         $registro-> id_usuario = $request -> personas;
         $registro -> empresa= $request -> empresa;
         $registro -> area = $request->area; 
         $registro -> cargo = $request -> cargo;
+        $registro -> especificacion = $request -> especifi;
         $registro ->save(); //Guarda todo el registro.
+
+        if ($request->cargo === '1') {
+            $registro->assignRole('empresario');
+        }
+        if ($request->cargo === '2') {
+            $registro->assignRole('lider');
+        }
+
+        if ($request->cargo === '3') {
+            $registro->assignRole('director');
+        }
+
+        if ($request->cargo === '4') {
+            $registro->assignRole('gerente');
+        }
+
+        if ($request->cargo === '5') {
+            $registro->assignRole('vicepresidente');
+        }
+
         return redirect('/');
+    }
+
+    public function viastas()
+    {
+        $personas =personas::all();
+        return view('registro2', compact('personas'));//Redirecciona a la pagina del segundo registro para su respectivo logueo"
+
     }
 
     public function logout(Request $request)

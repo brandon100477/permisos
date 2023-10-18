@@ -17,7 +17,7 @@
       <div class="container-fluid">
         @if (Route::has('ruta_login'))
           @auth
-          <a class="navbar-brand text-sm text-gray-700 dark:text-gray-500 underline">Bienvenid@ <b>{{auth()->user()->nombreApellido}}</b></a>
+          <a class="navbar-brand text-sm text-gray-700 dark:text-gray-500 underline">Bienvenid@ <b>{{auth()->user()->nombre}}</b></a>
         @else
           <a href="{{ route('login') }}" class="navbar-brand text-sm text-gray-700 dark:text-gray-500 underline">Iniciar sesión</a>
           @endauth

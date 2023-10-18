@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('empresa',50);
             $table->string('area');
             $table->string('cargo');
+            $table->string('especificacion');
             $table->timestamps();
         });
     }
