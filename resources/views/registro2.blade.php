@@ -39,6 +39,7 @@
                                 <option selected readonly value="">Seleccione una categoria</option>
                                 <option value="1">Cedicaf</option>
                                 <option value="2">Radiologos Asociados</option>
+                                <option value="3">Diaxme Salud</option>
                             </select>
                             <br> 
                             <br>

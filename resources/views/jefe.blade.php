@@ -8,8 +8,27 @@
 </head>
 <body>
     @section('content')
-
-    <p>General para la empresa "1" Líder en adelante</p>
+    <div class="contenedor">
+            <form method="POST">
+                <div class="col-md-12">
+                <h4 id="h4">Ver los registros solicitados de los empleados, líderes, directores o gerentes</h4>
+                    <div class="card">
+                        <!--Boton para registrar un nuevo formulario.-->
+                        <a href="{{ route('ruta_solicitud') }}" id="butons">Ver</a>
+                    </div><br><br><br><br>
+                    <h4 id="h4">Ver los registros solicitados</h4>
+                    <div class="card">
+                        <!--Boton para registrar un nuevo formulario.-->
+                        <a href="{{ route('ruta_registros2') }}" id="butons">Ver</a>
+                    </div><br><br><br><br>
+                    <h4 id="h4">Solicitar un nuevo permiso</h4>
+                    <div class="card">
+                        <!--Boton para ver los registros hasta el momento.-->
+                        <a href="{{ route('ruta_permisos2') }}" id="butons">Diligenciar</a>
+                    </div>
+                </div>
+            </form>
+        </div> 
 </body>
 @endsection
 </html>
