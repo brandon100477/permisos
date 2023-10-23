@@ -19,11 +19,11 @@ return new class extends Migration
             $table->text('horas_dias')->nullable();
             $table->time('hora_inicio')->nullable();
             $table->time('hora_fin')->nullable();
-            $table->date('dias')->nullable();
+            $table->string('dias', 100)->nullable();
             $table->text('remunerado')->nullable();
-            $table->binary('firma_empleado')->nullable();
-            $table->binary('firma_jefe')->nullable();
-            $table->binary('firma_th')->nullable();
+            $table->string('firma_empleado')->nullable();
+            $table->string('firma_jefe')->nullable();
+            $table->string('firma_th')->nullable();
             $table->text('observaciones')->nullable();
             $table->string('estado_solicitud', 200)->nullable();
             $table->string('p_c_l', 200)->nullable();

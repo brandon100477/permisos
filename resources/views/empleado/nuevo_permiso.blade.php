@@ -94,5 +94,9 @@
                 </div>
 
         </form>
+
+             <!--    <div id="vista-previa" style="display: none;"> -->
+    <!-- Aquí mostrarás los datos escritos por el usuario -->
+<!-- </div> -->
 </body>
 </html>

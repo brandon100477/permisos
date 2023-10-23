@@ -6,8 +6,8 @@ use App\Models\{permisos, personas, empresa};
 use Illuminate\Support\Facades\{Auth, hash};
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SolicitudController extends Controller
 {
@@ -38,7 +38,7 @@ class SolicitudController extends Controller
             if (in_array($empresaTipo, ['1', '2', '3'])) {
                 if (in_array($area, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'])) {
                     if ($cargo === '1') {
-                        return view('empleado');
+                        return view('empleado.empleado');
                     } elseif (in_array($cargo, ['2', '3', '4', '5'])) {
                         return view('jefe');
                     }
@@ -155,7 +155,7 @@ class SolicitudController extends Controller
             '12' => 'Gerencia médica',
         ];
         $area = $areas[$cargo->area] ?? 'Área Desconocida';
-        return view('nuevo_permiso', compact('area', 'empresa','id_usuario', 'id_cargo'));//Redirecciona a la pagina del segundo registro para su respectivo logueo"
+        return view('empleado.nuevo_permiso', compact('area', 'empresa','id_usuario', 'id_cargo'));//Redirecciona a la pagina del segundo registro para su respectivo logueo"
     }
     public function registros()
     {
@@ -163,10 +163,10 @@ class SolicitudController extends Controller
     }
     
     public function prevista()
-    {   
-
-        
-        return view('prevista');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
+    {    
+        $datos = permisos::select('info_permiso', 'dias')->get();
+        $pdf = PDF::loadView('prevista', compact('datos'));
+        return $pdf->stream();
     }
 
     public function solicitud()
@@ -175,7 +175,7 @@ class SolicitudController extends Controller
     }
     public function registros2()
     {
-        return view('registro_avanzado');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
+        return view('lider.registro_avanzado');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
     }
     public function permisos2()
     {
@@ -194,16 +194,24 @@ class SolicitudController extends Controller
             $justificacion = $data['permiso'];
         }
 
-        if ($request->firma_th === null) {// Verifica si se seleccionó "Otro" como motivo del permiso
+        if ($request->firma_th === null) {
             
             $estado = 'Pendiente';// Guarda el valor justificado.
+        }else{
+            $estado = $request->estado;
         }
 
+        $file_e = time().".".$request->firma_e->extension();
         
-        $file = time().".".$request->firma_e->extension();
-        /* dd($file); */
-        ($request->firma_e)->move(public_path("firma_e", $file));
+        ($request->firma_e)->move(public_path("image_e"), $file_e);
 
+        $file_j = time().".".$request->firma_jefe->extension();
+        
+        ($request->firma_jefe)->move(public_path("image_j"), $file_j);
+
+        $file_th = time().".".$request->firma_th->extension();
+        
+        ($request->firma_th)->move(public_path("image_th"), $file_th);
 
         $registro = new permisos();
         $registro -> id_usuario = $request -> usuario_id;
@@ -214,15 +222,15 @@ class SolicitudController extends Controller
         $registro -> hora_fin = $request -> hora_fin;
         $registro -> dias = $request -> dias;
         $registro -> remunerado = $request -> adicional;
-        $registro -> firma_empleado = $request-> firma_e;
-        $registro -> firma_jefe = $request -> firma_jefe;
-        $registro -> firma_th = $request -> firma_th;
+        $registro -> firma_empleado = $file_e;
+        $registro -> firma_jefe = $file_j;
+        $registro -> firma_th = $file_th;
         $registro -> observaciones = $request-> observaciones;
         $registro -> estado_solicitud = $estado;
         $registro -> p_c_l = $request->pcl;
-      /*   $registro->save(); */
+        $registro->save();
 
-        return view('prueba');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
+        return view('prueba');
     }
     
 }

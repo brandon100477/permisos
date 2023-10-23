@@ -69,7 +69,7 @@ Route::controller(SolicitudController::class)->group(function(){
 });
 
 Route::get('/Principal', function () { //Ruta para volver a principal empleados
-        return view('empleado');})->middleware('auth')->name('ruta_volver');
+        return view('empleado.empleado');})->middleware('auth')->name('ruta_volver');
         
 
 Route::get('/Principal-jefe', function () { //Ruta para volver a principal jefe
