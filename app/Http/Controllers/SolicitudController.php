@@ -162,11 +162,18 @@ class SolicitudController extends Controller
         return view('registros');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
     }
     
-    public function prevista()
-    {    
-        $datos = permisos::select('info_permiso', 'dias')->get();
-        $pdf = PDF::loadView('prevista', compact('datos'));
-        return $pdf->stream();
+    public function prevista(Request $request)
+    {     
+        $pcl = $request->session()->get('pcl');
+        $estado = $request->session()->get('estado');
+
+    $datos = permisos::select('info_permiso', 'dias')->get();
+    $pdf = PDF::loadView('prevista', compact('estado', 'pcl'));
+    return $pdf->stream();
+
+   
+    /* dd($pcl, $estado); */
+    
     }
 
     public function solicitud()
@@ -184,6 +191,18 @@ class SolicitudController extends Controller
 
     public function firmado(Request $request)
     {    
+        $accion = $request->input('submit_action');
+        if ($accion === 'prevista') {
+
+            $datos = $request->all();
+            $pcl = $datos['pcl'];
+            $estado = $datos['estado'];
+
+
+            return redirect()->route('ruta_prevista')->with('pcl', $pcl)->with('estado', $estado);
+
+        } elseif ($accion === 'firmar') {
+    
         $data = $request->all();
 
         
@@ -201,19 +220,28 @@ class SolicitudController extends Controller
             $estado = $request->estado;
         }
 
-        $file_e = time().".".$request->firma_e->extension();
-        
-        ($request->firma_e)->move(public_path("image_e"), $file_e);
+        if (!empty($request->firma_e)) {
+            $file_e = time() . "." . $request->firma_e->extension();
+            $request->firma_e->move(public_path("image_e"), $file_e);
+        } else {
+            $file_e = null;
+        }
 
-        $file_j = time().".".$request->firma_jefe->extension();
-        
-        ($request->firma_jefe)->move(public_path("image_j"), $file_j);
+        if (!empty($request->firma_jefe)) {
+            $file_j = time() . "." . $request->firma_jefe->extension();
+            $request->firma_jefe->move(public_path("image_j"), $file_j);
+        } else {
+            $file_j = null;
+        }
 
-        $file_th = time().".".$request->firma_th->extension();
-        
-        ($request->firma_th)->move(public_path("image_th"), $file_th);
+        if (!empty($request->file_th)) {
+            $file_th = time() . "." . $request->file_th->extension();
+            $request->file_th->move(public_path("image_th"), $file_th);
+        } else {
+            $file_j = null;
+        }
 
-        $registro = new permisos();
+           /*         $registro = new permisos();
         $registro -> id_usuario = $request -> usuario_id;
         $registro -> id_cargo = $request -> cargo_id;
         $registro -> info_permiso = $justificacion;
@@ -227,10 +255,9 @@ class SolicitudController extends Controller
         $registro -> firma_th = $file_th;
         $registro -> observaciones = $request-> observaciones;
         $registro -> estado_solicitud = $estado;
-        $registro -> p_c_l = $request->pcl;
-        $registro->save();
-
-        return view('prueba');
+        $registro -> p_c_l = $request->pcl; */
+    /*     $registro->save(); */
+    return view('prueba', compact( 'estado', 'justificacion'));
     }
-    
+    }
 }
