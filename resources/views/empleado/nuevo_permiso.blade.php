@@ -46,15 +46,12 @@
         <div>
 
         
-        <input type="radio" id="horas" name="tiempo" value="Horas">
-        <label for="horas">Horas</label><br>
-        <input type="radio" id="dias" name="tiempo" value="Dias">
-        <label for="dias">Días</label>
+        <input type="radio" id="horas" name="tiempo" value="horas">
+        <label for="horas">Horas</label> <p>De <input name="hora_inicio" type="time" > a <input name="hora_fin" type="time"></p><br>
+        <input type="radio" id="dias" name="tiempo" value="dias">
+        <label for="dias">Días</label> <p>Desde la fecha: <input  type="date"  name="fecha_inicio" placeholder="dd/mm/aaaa"> Hasta: <input  type="date"  name="fecha_fin" placeholder="dd/mm/aaaa"> </p>
 
         </div>
-
-        <p>De <input name="hora_inicio" type="time" > a <input name="hora_fin" type="time"></p>
-        <p>Días contados desde la fecha hasta: <input  type="text"  name="dias" placeholder="N días"></p>
         <br><br>
 
         <div>
@@ -73,7 +70,7 @@
                 <input type="file" class="" id="firma_e" name="firma_e" required><br><br>
 
 
-                <h5 name="nombreApellido" id="nombreApellido"class="textos" > Remunerado</h5>
+                <h5 name="nombreApellido" id="nombreApellido"class="textos"> Remunerado</h5>
                 <input type="radio" id="op1" name="adicional" value="Si">
                 <label for="op1">Si</label><br>
                 <input type="radio" id="op2" name="adicional" value="No">

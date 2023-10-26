@@ -132,6 +132,30 @@ class SolicitudController extends Controller
         $id_cargo= $cargo->id;//Asignación del cargo
         
 
+
+        return view('empleado.nuevo_permiso', compact('id_usuario', 'id_cargo'));//Redirecciona a la pagina de solicitud de permisos"
+    }
+    public function registros()
+    {
+        return view('registros');//Redirecciona a la pagina donde se ve el registro de permisos por persona"
+    }
+    
+    public function prevista(Request $request)
+    {   //Datos pasados del controlador  
+        $pcl = $request->session()->get('pcl');
+        $estado = $request->session()->get('estado');
+        $tiempo_inicio = $request->session()->get('tiempo_inicio');
+        $tiempo_fin = $request->session()->get('tiempo_fin');
+        $justificacion = $request->session()->get('justificacion');
+
+        //Datos sacados de la DB usuarios
+        $id =auth()->user()->id;
+        $usuario = personas::where('id', $id)->first();
+        $nombre = $usuario->nombre;
+        $cedula = $usuario->cedula;
+
+        //Datos sacados de la DB empresa
+        $cargo = Empresa::where('id_usuario', $id)->first();
         $empresas = [ //asiganción de empresa
             '1' => 'Cedicaf',
             '2' => 'Radiologos Asociados',
@@ -154,21 +178,19 @@ class SolicitudController extends Controller
             '11' => 'Sistema Integrado de gestión (Calidad)',
             '12' => 'Gerencia médica',
         ];
+        $cargos = [
+            '1' => 'Empresario',
+            '2' => 'Líder',
+            '3' => 'Director',
+            '4' => 'Gerente',
+            '5' => 'Vicepresidente',
+        ];
+        $car = $cargos[$cargo->cargo] ?? 'Área Desconocida';
         $area = $areas[$cargo->area] ?? 'Área Desconocida';
-        return view('empleado.nuevo_permiso', compact('area', 'empresa','id_usuario', 'id_cargo'));//Redirecciona a la pagina del segundo registro para su respectivo logueo"
-    }
-    public function registros()
-    {
-        return view('registros');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
-    }
-    
-    public function prevista(Request $request)
-    {     
-        $pcl = $request->session()->get('pcl');
-        $estado = $request->session()->get('estado');
+        $especifi= $cargo->especificacion;
+        $fecha_actual = date('d/m/Y');
 
-    $datos = permisos::select('info_permiso', 'dias')->get();
-    $pdf = PDF::loadView('prevista', compact('estado', 'pcl'));
+        $pdf = PDF::loadView('prevista', compact('fecha_actual', 'tiempo_fin', 'tiempo_inicio', 'estado', 'pcl', 'justificacion', 'nombre','cedula', 'empresa', 'area', 'especifi', 'car'));
     return $pdf->stream();
 
    
@@ -192,25 +214,21 @@ class SolicitudController extends Controller
     public function firmado(Request $request)
     {    
         $accion = $request->input('submit_action');
-        if ($accion === 'prevista') {
+        $datos = $request->all();
 
-            $datos = $request->all();
-            $pcl = $datos['pcl'];
-            $estado = $datos['estado'];
-
-
-            return redirect()->route('ruta_prevista')->with('pcl', $pcl)->with('estado', $estado);
-
-        } elseif ($accion === 'firmar') {
-    
-        $data = $request->all();
-
-        
-        if ($data['permiso'] === 'Otro') {// Verifica si se seleccionó "Otro" como motivo del permiso
-            
-            $justificacion = $data['justificado'];// Guarda el valor justificado.
+        if($datos['tiempo'] == 'horas') {//Select de si son horas o si es por fecha
+            $tiempo_inicio = $datos['hora_inicio'];
+            $tiempo_fin = $datos['hora_fin'];
         }else{
-            $justificacion = $data['permiso'];
+            $tiempo_inicio = $datos['fecha_inicio'];
+            $tiempo_fin = $datos['fecha_fin'];
+        }
+
+        if ($datos['permiso'] === 'Otro') {// Verifica si se seleccionó "Otro" como motivo del permiso
+            
+            $justificacion = $datos['justificado'];// Guarda el valor justificado.
+        }else{
+            $justificacion = $datos['permiso'];
         }
 
         if ($request->firma_th === null) {
@@ -241,6 +259,22 @@ class SolicitudController extends Controller
             $file_j = null;
         }
 
+        if ($accion === 'prevista') {
+
+            $pcl = $datos['pcl'];
+
+            
+
+            return redirect()->route('ruta_prevista')->with([
+                'estado'=> $estado,
+                'pcl' => $pcl,
+                'tiempo_inicio' => $tiempo_inicio,
+                'tiempo_fin' => $tiempo_fin,
+                'justificacion'=>$justificacion,
+            ]);
+
+        } elseif ($accion === 'firmar') {
+    
            /*         $registro = new permisos();
         $registro -> id_usuario = $request -> usuario_id;
         $registro -> id_cargo = $request -> cargo_id;

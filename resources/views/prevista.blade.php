@@ -25,21 +25,25 @@
         text-align: left;
     }
 
+    .ancho{
+        padding: 10px;
+    }
+    .tam{
+        font-size: 15px;
+    }
+    .fondo{
+        background-color: #D3D3D3;
+    }
+
 </style>
 <body>
 <h2>Prevista del permiso, compensatorio o licencia:</h2>
 
-<p><strong>Estado de permiso:</strong> {{ $estado }}</p>
-    <p><strong>Tipo de permiso:</strong> {{ $pcl }}</p>
-    <p>Documento antes de firmar y antes de enviar</p> 
     <table>
-
   <tr>
-
     <th rowspan="3">Logo</th>
     <td><strong>Administración del personal</strong></td>
     <td class="text"><strong>Código: GTH-ADP-FO-011</strong></td>
-
   </tr>
   <tr>
     <td>Gestión de Talento Humano</td>
@@ -52,22 +56,74 @@
 </table>
 
 <table>
-
   <tr>
-
-    <th rowspan="2" ><strong>Nombre del colaborador</strong></th>
-    
-    <td  class="text">(Nombre del empleado)</td>
+    <th class="text tam"><strong>Nombre del colaborador</strong></th>
+    <td  class="text ancho">{{ $nombre }}</td>
+    <th><strong>Empresa/Agencia</strong></th>
+    <td  class="text ancho">{{ $empresa }}</td>
   </tr>
-  <tr>
-  <td  class="text">(Nombre del empleado)</td>
-  </tr>
-
-<!--   <tr>
-    <th >Empresa/agencia2</th>
-    <td class="text">(Empresa en la que labora)</td>
-  </tr> -->
-  
 </table>
+
+<table>
+  <tr>
+    <td rowspan="2"><strong>Cargo:</strong> {{ $car }}, {{ $especifi }}</td>
+    <td  class="text"><strong>Estado del proceso:</strong> {{ $estado }}</td>
+    
+  </tr>
+  <tr>
+  <td  class="text"><strong>Fecha de la solicitud:</strong> {{ $fecha_actual }}</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th><strong>Tipo de permiso:</strong></th>
+    <td class="text ancho"> {{ $pcl }}</td>
+
+  </tr>
+</table>
+
+    
+<table>
+  <tr>
+  <td rowspan="2"><strong>Motivo del permiso, compensatorio o licencia:</strong>  {{ $justificacion }}</td>
+    <td class="text"><strong>Desde:</strong> {{ $tiempo_inicio }}</td>
+    
+  </tr>
+  <tr>
+  <td class="text"><strong>Hasta:</strong> {{ $tiempo_fin}}</td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+  <th rowspan="2"><strong>Firma y cedula del colaborador: </strong></th>
+    <td><img src="../../public/image_e/1698237281.webp" /></td>
+  </tr>
+  <tr>
+  <td class="text"><strong>C.C.</strong> {{ $cedula}} </td>
+  </tr>
+  </tr>
+</table>
+
+<table>
+  <tr>
+  <th class="ancho fondo"><strong>Autorización Talento Humano</strong></th>
+  </tr>
+  <tr>
+</table>
+
+<table>
+  <tr>
+  <th ><img src="../../public/image_e/1698237281.webp" /></th>
+  <th><img src="../../public/image_e/1698237281.webp" /></th>
+  </tr>
+  <tr>
+  <th >Firma del líder inmediato</th>
+  <th>Firma de Líder Talento Humano</th>
+  </tr>
+</table>
+
 </body>
+
 </html>
