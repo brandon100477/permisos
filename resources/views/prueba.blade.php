@@ -7,9 +7,8 @@
 </head>
 <body>
 
-    <p>Vista para pruebas: Firmado </p>
-    <p>Vista para pruebas: {{ $estado }}</p>
-    <p>Vista para pruebas: {{ $justificacion }}</p>
+    <p>Vista para pruebas: decargado</p>
+
 
 </body>
 </html>

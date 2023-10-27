@@ -137,8 +137,75 @@ class SolicitudController extends Controller
     }
     public function registros()
     {
-        return view('registros');//Redirecciona a la pagina donde se ve el registro de permisos por persona"
+        $id=auth()->user()->id;
+        $datos = permisos::where('id_usuario', $id)->get();
+        return view('registros', compact('datos'));//Redirecciona a la pagina donde se ve el registro de permisos por persona"
     }
+
+    public function descargar(Request $request)
+    {
+        $id_permiso = $request ->ide;
+        $id_usuario=auth()->user()->id;
+
+        $datos_permiso = permisos::where('id', $id_permiso)->first();
+        $pcl = $datos_permiso->p_c_l;
+        $estado = $datos_permiso ->estado_solicitud;
+        $fecha_solicitud = $datos_permiso ->fecha_solicitud;
+        $tiempo_inicio = $datos_permiso ->hora_inicio;
+        $tiempo_fin = $datos_permiso ->hora_fin;
+        $justificacion = $datos_permiso ->info_permiso;
+        $firma_e = $datos_permiso->firma_empleado;
+        $firma_j = $datos_permiso ->firma_jefe;
+        if($firma_j == null){
+        $firma_j = 'descarga.png';
+        }
+        $firma_th = $datos_permiso ->firma_th;
+        if($firma_th == null){
+            $firma_th = 'descarga.png';
+        }
+
+        $datos_persona= personas::where('id', $id_usuario)->first();
+        $nombre = $datos_persona->nombre;
+        $cedula = $datos_persona->cedula;
+
+        $datos_cargo = empresa::where('id_usuario', $id_usuario)->first();
+        $empresas = [ //asiganción de empresa
+            '1' => 'Cedicaf',
+            '2' => 'Radiologos Asociados',
+            '3' => 'Diaxme Salud',
+        ];
+        $empresa = $empresas[$datos_cargo->empresa] ?? 'Empresa Desconocida';
+        
+        //Asignación de areas
+        $areas = [
+            '1' => 'Asistencial',
+            '2' => 'TI (sistemas)',
+            '3' => 'Talento Humano',
+            '4' => 'Contabilidad',
+            '5' => 'Cartera',
+            '6' => 'Administrativa',
+            '7' => 'Facturación',
+            '8' => 'Comercial',
+            '9' => 'Planeación',
+            '10' => 'Servicio al cliente',
+            '11' => 'Sistema Integrado de gestión (Calidad)',
+            '12' => 'Gerencia médica',
+        ];
+        $cargos = [
+            '1' => 'Empresario',
+            '2' => 'Líder',
+            '3' => 'Director',
+            '4' => 'Gerente',
+            '5' => 'Vicepresidente',
+        ];
+        $car = $cargos[$datos_cargo->cargo] ?? 'Área Desconocida';
+        $area = $areas[$datos_cargo->area] ?? 'Área Desconocida';
+        $especifi= $datos_cargo->especificacion;
+       /*  dd($datos); */
+        $pdf = PDF::loadView('descargar', compact('firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
+        return $pdf->stream();
+    }
+
     
     public function prevista(Request $request)
     {   //Datos pasados del controlador  
@@ -191,10 +258,7 @@ class SolicitudController extends Controller
         $fecha_actual = date('d/m/Y');
 
         $pdf = PDF::loadView('prevista', compact('fecha_actual', 'tiempo_fin', 'tiempo_inicio', 'estado', 'pcl', 'justificacion', 'nombre','cedula', 'empresa', 'area', 'especifi', 'car'));
-    return $pdf->stream();
-
-   
-    /* dd($pcl, $estado); */
+        return $pdf->stream();
     
     }
 
@@ -237,33 +301,9 @@ class SolicitudController extends Controller
         }else{
             $estado = $request->estado;
         }
-
-        if (!empty($request->firma_e)) {
-            $file_e = time() . "." . $request->firma_e->extension();
-            $request->firma_e->move(public_path("image_e"), $file_e);
-        } else {
-            $file_e = null;
-        }
-
-        if (!empty($request->firma_jefe)) {
-            $file_j = time() . "." . $request->firma_jefe->extension();
-            $request->firma_jefe->move(public_path("image_j"), $file_j);
-        } else {
-            $file_j = null;
-        }
-
-        if (!empty($request->file_th)) {
-            $file_th = time() . "." . $request->file_th->extension();
-            $request->file_th->move(public_path("image_th"), $file_th);
-        } else {
-            $file_j = null;
-        }
-
         if ($accion === 'prevista') {
 
             $pcl = $datos['pcl'];
-
-            
 
             return redirect()->route('ruta_prevista')->with([
                 'estado'=> $estado,
@@ -274,24 +314,47 @@ class SolicitudController extends Controller
             ]);
 
         } elseif ($accion === 'firmar') {
+
+            if (!empty($request->firma_e)) {
+                $file_e = time() . "." . $request->firma_e->extension();
+                $request->firma_e->move(public_path("image_e"), $file_e);
+            } else {
+                $file_e = null;
+            }
     
-           /*         $registro = new permisos();
+            if (!empty($request->firma_jefe)) {
+                $file_j = time() . "." . $request->firma_jefe->extension();
+                $request->firma_jefe->move(public_path("image_j"), $file_j);
+            } else {
+                $file_j = null;
+            }
+    
+            if (!empty($request->file_th)) {
+                $file_th = time() . "." . $request->file_th->extension();
+                $request->file_th->move(public_path("image_th"), $file_th);
+            } else {
+                $file_th = null;
+            }
+            $fecha_actual = date('d/m/Y');
+    
+        $registro = new permisos();
         $registro -> id_usuario = $request -> usuario_id;
         $registro -> id_cargo = $request -> cargo_id;
         $registro -> info_permiso = $justificacion;
+        $registro -> fecha_solicitud = $fecha_actual;
         $registro -> horas_dias = $request -> tiempo;
-        $registro -> hora_inicio = $request-> hora_inicio;
-        $registro -> hora_fin = $request -> hora_fin;
-        $registro -> dias = $request -> dias;
+        $registro -> hora_inicio = $tiempo_inicio;
+        $registro -> hora_fin = $tiempo_fin;
         $registro -> remunerado = $request -> adicional;
         $registro -> firma_empleado = $file_e;
         $registro -> firma_jefe = $file_j;
         $registro -> firma_th = $file_th;
         $registro -> observaciones = $request-> observaciones;
         $registro -> estado_solicitud = $estado;
-        $registro -> p_c_l = $request->pcl; */
-    /*     $registro->save(); */
-    return view('prueba', compact( 'estado', 'justificacion'));
+        $registro -> p_c_l = $request->pcl;
+        $registro->save();
+
+    return redirect('/Principal');
     }
     }
 }

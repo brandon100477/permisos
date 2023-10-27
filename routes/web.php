@@ -65,6 +65,9 @@ Route::controller(SolicitudController::class)->group(function(){
         //Ruta para previsualizar
         Route::post('/Permisos/Prevista', 'prevista')->name('ruta_prevista')->middleware('auth');
         Route::get('/Permisos/Prevista', 'prevista')->name('ruta_prevista')->middleware('auth');
+        //Ruta para descargar PDF
+        Route::post('/Registros/Descargar', 'descargar')->name('ruta_descargar')->middleware('auth');
+        Route::get('/Registros/Descargar', 'descargar')->name('ruta_descargar')->middleware('auth');
 
 });
 

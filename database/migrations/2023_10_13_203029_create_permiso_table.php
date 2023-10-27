@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('id_usuario')->references('id')->on('usuario');
             $table->foreignId('id_cargo')->references('id')->on('cargo');
             $table->text('info_permiso')->nullable();
-            $table->text('fecha_inicio')->nullable();
-            $table->text('fecha_fin')->nullable();
-            $table->time('hora_inicio')->nullable();
-            $table->time('hora_fin')->nullable();
+            $table->text('fecha_solicitud')->nullable();
+            $table->text('horas_dias')->nullable();
+            $table->string('hora_inicio')->nullable();
+            $table->string('hora_fin')->nullable();
             $table->text('remunerado')->nullable();
             $table->string('firma_empleado')->nullable();
             $table->string('firma_jefe')->nullable();

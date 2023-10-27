@@ -8,7 +8,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('../../css/registro.css')}}"> -->
 
-    <title>Prevista</title>
+    <title>Decargando</title>
 </head>
 <style>
     table, th, td{
@@ -37,7 +37,7 @@
 
 </style>
 <body>
-<h2>Prevista del permiso, compensatorio o licencia:</h2>
+<h2>Permiso, compensatorio o licencia:</h2>
 
     <table>
   <tr>
@@ -71,7 +71,7 @@
     
   </tr>
   <tr>
-  <td  class="text"><strong>Fecha de la solicitud:</strong> {{ $fecha_actual }}</td>
+  <td  class="text"><strong>Fecha de la solicitud:</strong> {{ $fecha_solicitud }}</td>
   </tr>
 </table>
 
@@ -98,7 +98,7 @@
 <table>
   <tr>
   <th rowspan="2"><strong>Firma y cedula del colaborador: </strong></th>
-  <td><img src="../../public/image_e/1698348888.png" /></td>
+  <td><img src="{{ asset('image_e/' . $firma_e) }}" /></td>
   </tr>
   <tr>
   <td class="text"><strong>C.C.</strong> {{ $cedula}} </td>
@@ -115,13 +115,15 @@
 
 <table>
   <tr>
-  <th ><img src="../../public/image_e/1698237281.webp" /></th>
-  
+  <th ><img src="{{ asset('image_j/' . $firma_j) }}" /></th>
+  <th ><img src="{{ asset('image_th/' . $firma_th) }}" /></th>
   </tr>
+
   <tr>
   <th >Firma del líder inmediato</th>
   <th>Firma de Líder Talento Humano</th>
   </tr>
+
 </table>
 
 </body>
