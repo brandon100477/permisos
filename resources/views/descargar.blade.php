@@ -34,6 +34,10 @@
     .fondo{
         background-color: #D3D3D3;
     }
+    .img{
+      width: 300px;
+      height: 60px;
+    }
 
 </style>
 <body>
@@ -98,14 +102,14 @@
 <table>
   <tr>
   <th rowspan="2"><strong>Firma y cedula del colaborador: </strong></th>
-  <td><img src="{{ asset('image_e/' . $firma_e) }}" /></td>
+  <td><img src="{{ $image }}" class="img"/></td>
   </tr>
   <tr>
   <td class="text"><strong>C.C.</strong> {{ $cedula}} </td>
   </tr>
   </tr>
 </table>
-
+<!-- 
 <table>
   <tr>
   <th class="ancho fondo"><strong>Autorización Talento Humano</strong></th>
@@ -125,7 +129,7 @@
   </tr>
 
 </table>
-
+ -->
 </body>
 
 </html>

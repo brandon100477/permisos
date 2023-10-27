@@ -78,3 +78,6 @@ Route::get('/Principal', function () { //Ruta para volver a principal empleados
 Route::get('/Principal-jefe', function () { //Ruta para volver a principal jefe
         return view('jefe');})->middleware('auth')->name('ruta_volver1');
         
+
+        Route::get('/Pruebas', function () { //Ruta para volver a principal empleados
+                return view('prueba');})->middleware('auth');

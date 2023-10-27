@@ -202,7 +202,11 @@ class SolicitudController extends Controller
         $area = $areas[$datos_cargo->area] ?? 'Área Desconocida';
         $especifi= $datos_cargo->especificacion;
        /*  dd($datos); */
-        $pdf = PDF::loadView('descargar', compact('firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
+       /* dd($firma_e); */
+       $image = public_path('./image_e/'. $firma_e);
+
+/*        return view('descargar', compact('image','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
+ */        $pdf = PDF::loadView('descargar', compact('image','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
         return $pdf->stream();
     }
 

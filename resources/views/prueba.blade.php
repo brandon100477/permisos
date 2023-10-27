@@ -9,6 +9,9 @@
 
     <p>Vista para pruebas: decargado</p>
 
-
+    <?php 
+    phpinfo();
+    
+    ?>
 </body>
 </html>
