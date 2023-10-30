@@ -33,7 +33,7 @@
 
 
         <label name="titulo" id="titulo" class="textos"><h5> Seleccione el tipo de permiso:</h5></label><br>
-                            <select type="submit" id="pcl" name="pcl" class="select" value="">	
+                            <select type="submit" id="pcl" name="pcl" class="select" value="" required>	
                                 <option selected readonly value="">Seleccione una categoria</option>
                                 <option value="Permiso">Permiso</option>
                                 <option value="Compensatorio">Compensatorio</option>
@@ -46,7 +46,7 @@
         <div>
 
         
-        <input type="radio" id="horas" name="tiempo" value="horas">
+        <input type="radio" id="horas" name="tiempo" value="horas" required>
         <label for="horas">Horas</label> <p>De <input name="hora_inicio" type="time" > a <input name="hora_fin" type="time"></p><br>
         <input type="radio" id="dias" name="tiempo" value="dias">
         <label for="dias">Días</label> <p>Desde la fecha: <input  type="date"  name="fecha_inicio" placeholder="dd/mm/aaaa"> Hasta: <input  type="date"  name="fecha_fin" placeholder="dd/mm/aaaa"> </p>
@@ -90,8 +90,6 @@
                 <button class="btn-lg boton primary" type="submit" name="submit_action" value="firmar" id="button1">Firmar</button>
                 <button class="btn-lg boton primary" type="submit" name="submit_action" value="prevista" id="button2">Pre-vista</button>                <br><br><br><br>
 
-                <!-- <button class="btn-lg boton primary" type="submit" name="button1" id="button1">Pre-vista</button>
-                    <button type="button" name="button2" id="button2" action="{{ route('ruta_firmar') }}">Firmar</button> -->
 
                 </div>
 
@@ -99,14 +97,4 @@
 
 
 </body>
-<!-- <script>
-function enviarFormulario(boton, accion) {
-    // Obtener los datos del formulario
-    var datos = new FormData(document.querySelector('#formulario'));
-
-    // Redirigir a la URL configurada en el botón
-    window.location.href = accion;
-}
-
-</script> -->
 </html>

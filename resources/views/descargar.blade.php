@@ -102,14 +102,14 @@
 <table>
   <tr>
   <th rowspan="2"><strong>Firma y cedula del colaborador: </strong></th>
-  <td><img src="{{ $image }}" class="img"/></td>
+  <td><img src="{{ $image_e }}" class="img"/></td>
   </tr>
   <tr>
   <td class="text"><strong>C.C.</strong> {{ $cedula}} </td>
   </tr>
   </tr>
 </table>
-<!-- 
+
 <table>
   <tr>
   <th class="ancho fondo"><strong>Autorización Talento Humano</strong></th>
@@ -119,8 +119,8 @@
 
 <table>
   <tr>
-  <th ><img src="{{ asset('image_j/' . $firma_j) }}" /></th>
-  <th ><img src="{{ asset('image_th/' . $firma_th) }}" /></th>
+  <th ><img src="{{ $image_j }}" class="img"/></th>
+  <th ><img src="{{ $image_th }}}" class="img" /></th>
   </tr>
 
   <tr>
@@ -129,7 +129,7 @@
   </tr>
 
 </table>
- -->
+
 </body>
 
 </html>

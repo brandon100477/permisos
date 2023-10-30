@@ -116,6 +116,7 @@
 <table>
   <tr>
   <th ><img src="../../public/image_e/1698237281.webp" /></th>
+  <th ><img src="../../public/image_e/1698237281.webp" /></th>
   
   </tr>
   <tr>

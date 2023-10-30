@@ -203,11 +203,23 @@ class SolicitudController extends Controller
         $especifi= $datos_cargo->especificacion;
        /*  dd($datos); */
        /* dd($firma_e); */
-       $image = public_path('./image_e/'. $firma_e);
+       $image_e = public_path('./image_e/'. $firma_e);
+
+       if($image_j = public_path('./image_j/'. $firma_j == null)){
+        $image_j = public_path('./image/rechazado.jpg');
+       }else{
+        $image_j = public_path('./image_j/'. $firma_j);
+       }
+
+       if($image_th = public_path('./image_th/'. $firma_th == null)){
+         $image_th = public_path('./image/rechazado.jpg');
+       }else{
+        $image_th = public_path('./image_th/'. $firma_th);
+       }
 
 /*        return view('descargar', compact('image','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
- */        $pdf = PDF::loadView('descargar', compact('image','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
-        return $pdf->stream();
+ */        $pdf = PDF::loadView('descargar', compact('image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
+            return $pdf->download('Permiso.pdf');
     }
 
     
@@ -270,10 +282,7 @@ class SolicitudController extends Controller
     {
         return view('ver-permiso');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
     }
-    public function registros2()
-    {
-        return view('lider.registro_avanzado');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
-    }
+
     public function permisos2()
     {
         return view('nuevo_avanzado');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
@@ -357,8 +366,39 @@ class SolicitudController extends Controller
         $registro -> estado_solicitud = $estado;
         $registro -> p_c_l = $request->pcl;
         $registro->save();
+        
+        if($request->cargo_id === '1'){
+            return redirect('/Principal');
+        }else if( $request->cargo_id === '2'){
+            return redirect('/Principal-lider');
+    }else if($request->cargo_id === '3'){
+        return redirect('/Principal-gerente');
+    }else if( $request->cargo_id === '4'){
+        return redirect('/Principal-director');
+    }else if($request->cargo_id === '5'){
+        return redirect('/Principal-vicepresidencia');
+    }
+    }
+}
+public function volver_principal(Request $request)
+//Desde la solicitud de permisos, vovler a la vista según corresponda
+{
+    $id =auth()->user()->id;
+    $cargos = Empresa::where('id_usuario', $id)->first();
+    $cargo= $cargos->cargo;
 
-    return redirect('/Principal');
+        if($cargo === '1'){
+            return redirect('/Principal');
+        }else if( $cargo === '2'){
+            return redirect('/Principal-lider');
+    }else if($cargo === '3'){
+        return redirect('/Principal-gerente');
+    }else if( $cargo === '4'){
+        return redirect('/Principal-director');
+    }else if($cargo === '5'){
+        return redirect('/Principal-vicepresidencia');
     }
     }
+
+
 }

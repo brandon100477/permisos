@@ -8,7 +8,7 @@
 <body>
         <section class="inicio">
             <h2>diligenciar permisos</h2>
-            <a href="{{ route('ruta_volver1')}}" class="cerrar" id="cerrar">Volver</a>
+            <a href="{{ route('ruta_volver')}}" class="cerrar" id="cerrar">Volver</a>
         </section>
 
 </body>

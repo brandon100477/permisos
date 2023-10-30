@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ asset('img/favicon.png')}}">
     <title>Bienvenido</title>
 </head>
 <body>
@@ -19,7 +20,7 @@
                     <h4 id="h4">Ver los registros solicitados</h4>
                     <div class="card">
                         <!--Boton para registrar un nuevo formulario.-->
-                        <a href="{{ route('ruta_registros2') }}" id="butons">Ver</a>
+                        <a href="{{ route('ruta_registros') }}" id="butons">Ver</a>
                     </div><br><br><br><br>
                     <h4 id="h4">Solicitar un nuevo permiso</h4>
                     <div class="card">

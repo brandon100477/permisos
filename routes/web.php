@@ -37,6 +37,7 @@ Route::controller(SolicitudController::class)->group(function(){
 
         // cierre de sesión
         Route::post('/logout', 'logout')->name('auth.logout')->middleware('auth');
+
         // Ruta para un nuevo permiso empleados
         Route::post('/Permisos', 'permisos')->name('ruta_permisos')->middleware('auth');
         Route::get('/Permisos', 'permisos')->name('ruta_permisos')->middleware('auth');
@@ -45,19 +46,12 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::get('/Registros', 'registros')->name('ruta_registros')->middleware('auth');
 
 
-         // Ruta para ver los permisos de empleados a jefe
-        Route::post('/Solicitud-avanzado', 'solicitud')->name('ruta_solicitud')->middleware('auth');
-        Route::get('/Solicitud-avanzado', 'solicitud')->name('ruta_solicitud')->middleware('auth');
-         // Ruta para ver los permisos del jefe
-        Route::post('/Registros-avanzado', 'registros2')->name('ruta_registros2')->middleware('auth');
-        Route::get('/Registros-avanzado', 'registros2')->name('ruta_registros2')->middleware('auth');
-        // Ruta para un nuevo permiso jefe
-        Route::post('/Permisos-avanzado', 'permisos2')->name('ruta_permisos2')->middleware('auth');
-        Route::get('/Permisos-avanzado', 'permisos2')->name('ruta_permisos2')->middleware('auth');
-
-        // Ruta para un nuevo permiso jefe
-        Route::post('/Permisos/Pre-vista', 'prevista')->name('ruta_prevista')->middleware('auth');
-        Route::get('/Permisos/Pre-vista', 'prevista')->name('ruta_prevista')->middleware('auth');  
+        // Ruta para ver los permisos de empleados a lideres
+        Route::post('/Solicitud-lider', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+        Route::get('/Solicitud-lider', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+        // Ruta para un nuevo permiso lider
+        Route::post('/Permisos-lider', 'permisos')->name('ruta_permisos2')->middleware('auth');
+        Route::get('/Permisos-lider', 'permisos')->name('ruta_permisos2')->middleware('auth');
         
         //Ruta para firmar
         Route::post('/Permisos/Firmado', 'firmado')->name('ruta_firmar')->middleware('auth');
@@ -69,14 +63,18 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::post('/Registros/Descargar', 'descargar')->name('ruta_descargar')->middleware('auth');
         Route::get('/Registros/Descargar', 'descargar')->name('ruta_descargar')->middleware('auth');
 
+        //Ruta para regresar a la respectiva vista principal
+        Route::post('/Volver', 'volver_principal')->name('ruta_volver')->middleware('auth');
+        Route::get('/Volver', 'volver_principal')->name('ruta_volver')->middleware('auth');
+
 });
 
-Route::get('/Principal', function () { //Ruta para volver a principal empleados
-        return view('empleado.empleado');})->middleware('auth')->name('ruta_volver');
+ Route::get('/Principal', function () { //Ruta para volver a principal empleados
+        return view('empleado.empleado');})->middleware('auth');
         
 
-Route::get('/Principal-jefe', function () { //Ruta para volver a principal jefe
-        return view('jefe');})->middleware('auth')->name('ruta_volver1');
+Route::get('/Principal-lider', function () { //Ruta para volver a principal jefe
+        return view('jefe');})->middleware('auth');
         
 
         Route::get('/Pruebas', function () { //Ruta para volver a principal empleados
