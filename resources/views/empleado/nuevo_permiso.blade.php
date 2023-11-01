@@ -21,7 +21,7 @@
         <input type="hidden" name="cargo_id" id="nombre" value="{{ $id_cargo }}" class="">
         <br>
 
-        <label name="titulo" id="titulo" class="textos"><h5> Estado de permiso:</h5></label><br>
+<!--         <label name="titulo" id="titulo" class="textos"><h5> Estado de permiso:</h5></label><br>
                             <select type="submit" id="estado" name="estado" class="select" value="" >	
                                 <option selected readonly value="">Seleccione una categoria</option>
                                 <option value="Pendiente">Pendiente</option>
@@ -30,7 +30,7 @@
                             </select>
                             <br>
                             <br>
-
+ -->
 
         <label name="titulo" id="titulo" class="textos"><h5> Seleccione el tipo de permiso:</h5></label><br>
                             <select type="submit" id="pcl" name="pcl" class="select" value="" required>	
@@ -70,7 +70,7 @@
                 <input type="file" class="" id="firma_e" name="firma_e" required><br><br>
 
 
-                <h5 name="nombreApellido" id="nombreApellido"class="textos"> Remunerado</h5>
+               <!--  <h5 name="nombreApellido" id="nombreApellido"class="textos"> Remunerado</h5>
                 <input type="radio" id="op1" name="adicional" value="Si">
                 <label for="op1">Si</label><br>
                 <input type="radio" id="op2" name="adicional" value="No">
@@ -83,7 +83,7 @@
                 <input type="file" class="" id="firma_jefe" name="firma_jefe" placeholder="Firma" ><br><br>
 
                 <h5 name="nombreApellido" id="nombreApellido"class="textos" >Firma de Talento Humano.</h5>
-                <input type="file" class="" id="firma_th" name="firma_th" placeholder="Firma" ><br><br>
+                <input type="file" class="" id="firma_th" name="firma_th" placeholder="Firma" ><br><br> -->
 
                 <div class="boton">
                     

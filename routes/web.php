@@ -46,11 +46,11 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::get('/Registros', 'registros')->name('ruta_registros')->middleware('auth');
 
         // Ruta para ver los permisos de empleados a lideres
-        Route::post('/Solicitud-lider/Revisar', 'solicitud')->name('ruta_solicitud')->middleware('auth');
-        Route::get('/Solicitud-lider', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+        Route::post('/Solicitud-jefe/Revisar', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+        Route::get('/Solicitud-jefe', 'solicitud')->name('ruta_solicitud')->middleware('auth');
         // Ruta para un nuevo permiso lider
-        Route::post('/Permisos-lider', 'permisos')->name('ruta_permisos2')->middleware('auth');
-        Route::get('/Permisos-lider', 'permisos')->name('ruta_permisos2')->middleware('auth');
+        Route::post('/Permisos-jefe', 'permisos')->name('ruta_permisos2')->middleware('auth');
+        Route::get('/Permisos-jefe', 'permisos')->name('ruta_permisos2')->middleware('auth');
 
         //Ruta para firmar
         Route::post('/Permisos/Firmado', 'firmado')->name('ruta_firmar')->middleware('auth');
@@ -67,12 +67,12 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::get('/Volver', 'volver_principal')->name('ruta_volver')->middleware('auth');
 
         //Ruta para aprovar o rechazar el permiso
-        Route::post('/Solicitud-lider/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
-        Route::get('/Solicitud-lider/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
+        Route::post('/Solicitud-jefe/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
+        Route::get('/Solicitud-jefe/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
 
         //Ruta para aprovar o rechazar el permiso
-        Route::post('/Solicitud-lider/Revisar/Actualizar', 'actualizar')->name('ruta_actualizar')->middleware('auth');
-        Route::get('/Solicitud-lider/Revisar/Actualizar', 'actualizar')->name('ruta_actualizar')->middleware('auth');
+        Route::post('/Solicitud-jefe/Revisar/Actualizar', 'actualizar')->name('ruta_actualizar')->middleware('auth');
+        Route::get('/Solicitud-jefe/Revisar/Actualizar', 'actualizar')->name('ruta_actualizar')->middleware('auth');
         
 
 });

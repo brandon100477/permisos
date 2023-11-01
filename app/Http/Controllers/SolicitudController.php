@@ -247,10 +247,27 @@ class SolicitudController extends Controller
         $area = $cargos->area;
         $car= $cargos->cargo;
         $especificacion = $cargos ->especificacion;
-        $empleado = Empresa::where('empresa', $empresa)->where('area',$area)->where('cargo', '1')->pluck('id_usuario')->toArray();
-        $usuarios = personas::WhereIn('id',$empleado)->get();
-        $permisos = permisos::whereIn('id_usuario', $empleado)->get();
-        return view('lider.solicitud', compact('permisos', 'usuarios', 'especificacion'));
+        if($car === '2'){
+            $empleado = Empresa::where('empresa', $empresa)->where('area',$area)->where('cargo', '1')->pluck('id_usuario')->toArray();
+            $usuarios = personas::WhereIn('id',$empleado)->get();
+            $permisos = permisos::whereIn('id_usuario', $empleado)->get();
+            return view('lider.solicitud', compact('permisos', 'usuarios', 'especificacion'));
+        }else if($car === '3'){
+            $empleado = Empresa::where('empresa', $empresa)->where('area',$area)->where('cargo', '2')->pluck('id_usuario')->toArray();
+            $usuarios = personas::WhereIn('id',$empleado)->get();
+            $permisos = permisos::whereIn('id_usuario', $empleado)->get();
+            return view('lider.solicitud', compact('permisos', 'usuarios', 'especificacion'));
+        }else if($car === '4'){
+            $empleado = Empresa::where('empresa', $empresa)->where('area',$area)->where('cargo', '3')->pluck('id_usuario')->toArray();
+            $usuarios = personas::WhereIn('id',$empleado)->get();
+            $permisos = permisos::whereIn('id_usuario', $empleado)->get();
+            return view('lider.solicitud', compact('permisos', 'usuarios', 'especificacion'));
+        }else{
+            $empleado = Empresa::where('empresa', $empresa)->where('area',$area)->where('cargo', '4')->pluck('id_usuario')->toArray();
+            $usuarios = personas::WhereIn('id',$empleado)->get();
+            $permisos = permisos::whereIn('id_usuario', $empleado)->get();
+            return view('lider.solicitud', compact('permisos', 'usuarios', 'especificacion'));
+        }
     }
     public function firmado(Request $request)
     {    
