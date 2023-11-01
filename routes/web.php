@@ -27,7 +27,7 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::get('/Register', 'register')->name('ruta_registrar'); //GET:Se envían los datos por URL
         Route::post('Rregister', 'register')->name('ruta_registrar'); //POST:Se envían los datos de forma oculta
 
-         // 2° parte del Registro (Datos de la empresa)
+        // 2° parte del Registro (Datos de la empresa)
         Route::get('/Register/Cargo', 'registrar')->name('ruta_cargo');
         Route::post('/Register/Cargo', 'registrar')->name('ruta_cargo'); 
 
@@ -45,14 +45,13 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::post('/Registros', 'registros')->name('ruta_registros')->middleware('auth');
         Route::get('/Registros', 'registros')->name('ruta_registros')->middleware('auth');
 
-
         // Ruta para ver los permisos de empleados a lideres
         Route::post('/Solicitud-lider/Revisar', 'solicitud')->name('ruta_solicitud')->middleware('auth');
         Route::get('/Solicitud-lider', 'solicitud')->name('ruta_solicitud')->middleware('auth');
         // Ruta para un nuevo permiso lider
         Route::post('/Permisos-lider', 'permisos')->name('ruta_permisos2')->middleware('auth');
         Route::get('/Permisos-lider', 'permisos')->name('ruta_permisos2')->middleware('auth');
-        
+
         //Ruta para firmar
         Route::post('/Permisos/Firmado', 'firmado')->name('ruta_firmar')->middleware('auth');
         Route::get('/Permisos/Firmado', 'firmado')->name('ruta_firmar')->middleware('auth');
@@ -78,16 +77,23 @@ Route::controller(SolicitudController::class)->group(function(){
 
 });
 
- Route::get('/Principal', function () { //Ruta para volver a principal empleados
+Route::get('/Principal', function () { //Ruta para volver a principal empleados
         return view('empleado.empleado');})->middleware('auth');
 
-        Route::get('/Solicitud-lider/volver', function () { //Ruta para volver a principal empleados
-                return redirect('/Solicitud-lider');})->middleware('auth')->name('ruta_volver1');
-        
+Route::get('/Solicitud-lider/volver', function () { //Ruta para volver a principal empleados
+        return redirect('/Solicitud-lider');})->middleware('auth')->name('ruta_volver1');
 
-Route::get('/Principal-lider', function () { //Ruta para volver a principal jefe
+Route::get('/Principal-lider', function () { //Ruta para volver a principal lider
         return view('jefe');})->middleware('auth');
-        
 
-        Route::get('/Pruebas', function () { //Ruta para volver a principal empleados
-                return view('prueba');})->middleware('auth');
+Route::get('/Principal-director', function () { //Ruta para volver a principal director
+        return view('jefe');})->middleware('auth');
+
+Route::get('/Principal-gerente', function () { //Ruta para volver a principal director
+        return view('jefe');})->middleware('auth');
+
+Route::get('/Principal-vicepresidencia', function () { //Ruta para volver a principal director
+        return view('jefe');})->middleware('auth');
+
+Route::get('/Pruebas', function () { //Ruta para volver a principal empleados
+        return view('prueba');})->middleware('auth');
