@@ -106,7 +106,7 @@ class SolicitudController extends Controller
             $registro->assignRole('vicepresidente');
         }
 
-        return redirect('/login');
+        return redirect('/Login');
     }
 
     public function visitas()
@@ -156,6 +156,8 @@ class SolicitudController extends Controller
         $justificacion = $datos_permiso ->info_permiso;
         $firma_e = $datos_permiso->firma_empleado;
         $firma_j = $datos_permiso ->firma_jefe;
+        $remunerado = $datos_permiso->remunerado;
+        $obs = $datos_permiso->observaciones;
         if($firma_j == null){
         $firma_j = 'descarga.png';
         }
@@ -218,7 +220,7 @@ class SolicitudController extends Controller
        }
 
 /*        return view('descargar', compact('image','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
- */        $pdf = PDF::loadView('descargar', compact('image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
+ */        $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
             return $pdf->download('Permiso.pdf');
     }
 
@@ -280,12 +282,29 @@ class SolicitudController extends Controller
 
     public function solicitud()
     {
-        return view('ver-permiso');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
-    }
 
-    public function permisos2()
-    {
-        return view('nuevo_avanzado');//Redirecciona a la pagina del segundo registro para su respectivo logueo"
+        $id=auth()->user()->id;
+        $cargos = Empresa::where('id_usuario', $id)->first();
+        $empresa = $cargos->empresa;
+        $area = $cargos->area;
+        $car= $cargos->cargo;
+        $especificacion = $cargos ->especificacion;
+        
+
+        $empleado = Empresa::where('empresa', $empresa)->where('area',$area)->where('cargo', '1')->pluck('id_usuario')->toArray();
+        /* dd($empleado); */
+        $usuarios = personas::WhereIn('id',$empleado)->get();
+/*         foreach ($usuarios as $usuario) {
+            $nombre = $usuario->nombre;
+
+
+        } */
+        
+        $permisos = permisos::whereIn('id_usuario', $empleado)->get();
+        /* dd($permisos); */ 
+
+        return view('lider.solicitud', compact('permisos', 'usuarios', 'especificacion'));
+        /* return view('ver-permiso'); *///Redirecciona a la pagina del segundo registro para su respectivo logueo"
     }
 
     public function firmado(Request $request)
@@ -366,27 +385,30 @@ class SolicitudController extends Controller
         $registro -> estado_solicitud = $estado;
         $registro -> p_c_l = $request->pcl;
         $registro->save();
-        
-        if($request->cargo_id === '1'){
+
+
+        $cargos = Empresa::where('id', $request->cargo_id)->first();
+        $cargo= $cargos->cargo;
+     /*    dd($cargo); */
+        if($cargo === '1'){
             return redirect('/Principal');
-        }else if( $request->cargo_id === '2'){
+        }else if( $cargo === '2'){
             return redirect('/Principal-lider');
-    }else if($request->cargo_id === '3'){
+    }else if($cargo === '3'){
         return redirect('/Principal-gerente');
-    }else if( $request->cargo_id === '4'){
+    }else if( $cargo === '4'){
         return redirect('/Principal-director');
-    }else if($request->cargo_id === '5'){
+    }else if($cargo === '5'){
         return redirect('/Principal-vicepresidencia');
     }
     }
 }
 public function volver_principal(Request $request)
-//Desde la solicitud de permisos, vovler a la vista según corresponda
+//Desde la solicitud de permisos, volver a la vista según corresponda
 {
     $id =auth()->user()->id;
     $cargos = Empresa::where('id_usuario', $id)->first();
     $cargo= $cargos->cargo;
-
         if($cargo === '1'){
             return redirect('/Principal');
         }else if( $cargo === '2'){
@@ -400,5 +422,100 @@ public function volver_principal(Request $request)
     }
     }
 
+    public function revisar(Request $request)
+    {
+        $ide = $request->ide;
+        $actualizar = permisos::where('id', $ide)->first();
+        $permiso_id = $actualizar->id;
 
+        $id=auth()->user()->id;
+        $usuario =personas::where('id', $id)->first();
+        $id_usuario= $usuario->id;
+
+        $cargo= empresa::where('id_usuario', $id)->first();
+        $id_cargo= $cargo->id;//Asignación del cargo
+
+        return view('actualizar', compact('permiso_id','actualizar','id_usuario', 'id_cargo'));//Redirecciona a la pagina de solicitud de permisos"
+    }
+    public function actualizar(Request $request)
+    {
+        $accion = $request->input('submit_action');
+        $ide = $request->ide; //id del permiso correspondiente
+        $permiso_update = permisos::where('id', $ide)->first();
+        $usuario_id = $permiso_update->id_usuario; //id del usuario
+        $estado = $permiso_update->estado_solicitud;
+        $fecha_solicitud = $permiso_update->fecha_solicitud;
+        $pcl = $permiso_update->p_c_l;
+        $justificacion = $permiso_update->info_permiso;
+        $tiempo_inicio = $permiso_update->hora_inicio;
+        $tiempo_fin = $permiso_update->hora_fin;
+        $firma_e = $permiso_update->firma_empleado;
+        $firma_j = $permiso_update->firma_jefe;
+        $firma_th = $permiso_update->firma_th;
+        $remunerado = $permiso_update->remunerado;
+        $obs = $permiso_update->observaciones;
+
+        if($firma_th == null){
+            $firma_th = 'descarga.png';
+        }
+        $image_e = public_path('./image_e/'. $firma_e);
+        $image_j = public_path('./image_j/'. $firma_th);
+        $image_th = public_path('./image_th/'. $firma_th);
+        /* dd($image_e); */
+
+
+        $usuario =personas::where('id', $usuario_id)->first();
+        $nombre = $usuario->nombre;
+        $cedula = $usuario->cedula;
+        
+        $cargo = Empresa::where('id_usuario', $usuario_id)->first();
+        $empresas = [ //asiganción de empresa
+            '1' => 'Cedicaf',
+            '2' => 'Radiologos Asociados',
+            '3' => 'Diaxme Salud',
+        ];
+        //Asignación de areas
+        $areas = [
+            '1' => 'Asistencial',
+            '2' => 'TI (sistemas)',
+            '3' => 'Talento Humano',
+            '4' => 'Contabilidad',
+            '5' => 'Cartera',
+            '6' => 'Administrativa',
+            '7' => 'Facturación',
+            '8' => 'Comercial',
+            '9' => 'Planeación',
+            '10' => 'Servicio al cliente',
+            '11' => 'Sistema Integrado de gestión (Calidad)',
+            '12' => 'Gerencia médica',
+        ];
+        $cargos = [
+            '1' => 'Empresario',
+            '2' => 'Líder',
+            '3' => 'Director',
+            '4' => 'Gerente',
+            '5' => 'Vicepresidente',
+        ];
+
+        $empresa = $empresas[$cargo->empresa] ?? 'Empresa Desconocida';
+        $area = $areas[$cargo->area] ?? 'Área Desconocida';
+        $car = $cargos[$cargo->cargo] ?? 'Área Desconocida';
+        $especifi = $cargo->especificacion;
+
+        if($accion === 'prevista'){
+            
+            $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','tiempo_inicio','tiempo_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));            
+            return $pdf->stream();
+            
+        }else if($accion ==='aprovar'){
+            dd($cargo);
+
+
+        }else{
+            
+            dd($usuario);
+            return view('prueba', compact(/* 'image_e', */'actualizar','id_usuario', 'id_cargo'));//Redirecciona a la pagina de solicitud de permisos"
+        }
+    }
+    
 }

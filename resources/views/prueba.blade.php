@@ -7,11 +7,7 @@
 </head>
 <body>
 
-    <p>Vista para pruebas: decargado</p>
+    <p>Vista para pruebas: {{ $ide }}</p>
 
-    <?php 
-    phpinfo();
-    
-    ?>
 </body>
 </html>

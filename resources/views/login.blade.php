@@ -45,7 +45,7 @@
                         <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
                     </div>
                     <br>
-                    <p>¿Aùn no tienes una cuenta? puedes registrarse <a href="register">aquì</a></p>
+                    <p>¿Aùn no tienes una cuenta? puedes registrarse <a href="Register">aquì</a></p>
             </form>
         </div>
     </body>     

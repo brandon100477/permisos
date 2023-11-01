@@ -47,7 +47,7 @@
 
         
         <input type="radio" id="horas" name="tiempo" value="horas" required>
-        <label for="horas">Horas</label> <p>De <input name="hora_inicio" type="time" > a <input name="hora_fin" type="time"></p><br>
+        <label for="horas" >Horas</label> <p>De <input name="hora_inicio" type="time" > a <input name="hora_fin" type="time"></p><br>
         <input type="radio" id="dias" name="tiempo" value="dias">
         <label for="dias">Días</label> <p>Desde la fecha: <input  type="date"  name="fecha_inicio" placeholder="dd/mm/aaaa"> Hasta: <input  type="date"  name="fecha_fin" placeholder="dd/mm/aaaa"> </p>
 
@@ -88,13 +88,11 @@
                 <div class="boton">
                     
                 <button class="btn-lg boton primary" type="submit" name="submit_action" value="firmar" id="button1">Firmar</button>
-                <button class="btn-lg boton primary" type="submit" name="submit_action" value="prevista" id="button2">Pre-vista</button>                <br><br><br><br>
-
-
+                <button class="btn-lg boton primary" type="submit" name="submit_action" value="prevista" id="button2">Pre-vista</button>
+                <br><br><br><br>
                 </div>
-
         </form>
-
-
 </body>
+<!-- Poner un Script para saber si en las horas o días esta vacío, si es así, mostrar una alerta para que se llene uno de los dos
+Y así evitar errores para los cargos que van a revisar-->
 </html>

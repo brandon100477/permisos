@@ -47,7 +47,7 @@ Route::controller(SolicitudController::class)->group(function(){
 
 
         // Ruta para ver los permisos de empleados a lideres
-        Route::post('/Solicitud-lider', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+        Route::post('/Solicitud-lider/Revisar', 'solicitud')->name('ruta_solicitud')->middleware('auth');
         Route::get('/Solicitud-lider', 'solicitud')->name('ruta_solicitud')->middleware('auth');
         // Ruta para un nuevo permiso lider
         Route::post('/Permisos-lider', 'permisos')->name('ruta_permisos2')->middleware('auth');
@@ -67,10 +67,22 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::post('/Volver', 'volver_principal')->name('ruta_volver')->middleware('auth');
         Route::get('/Volver', 'volver_principal')->name('ruta_volver')->middleware('auth');
 
+        //Ruta para aprovar o rechazar el permiso
+        Route::post('/Solicitud-lider/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
+        Route::get('/Solicitud-lider/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
+
+        //Ruta para aprovar o rechazar el permiso
+        Route::post('/Solicitud-lider/Revisar/Actualizar', 'actualizar')->name('ruta_actualizar')->middleware('auth');
+        Route::get('/Solicitud-lider/Revisar/Actualizar', 'actualizar')->name('ruta_actualizar')->middleware('auth');
+        
+
 });
 
  Route::get('/Principal', function () { //Ruta para volver a principal empleados
         return view('empleado.empleado');})->middleware('auth');
+
+        Route::get('/Solicitud-lider/volver', function () { //Ruta para volver a principal empleados
+                return redirect('/Solicitud-lider');})->middleware('auth')->name('ruta_volver1');
         
 
 Route::get('/Principal-lider', function () { //Ruta para volver a principal jefe

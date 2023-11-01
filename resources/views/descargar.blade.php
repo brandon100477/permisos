@@ -28,6 +28,9 @@
     .ancho{
         padding: 10px;
     }
+    .ancho2{
+      padding: 30px;
+    }
     .tam{
         font-size: 15px;
     }
@@ -98,6 +101,10 @@
   <td class="text"><strong>Hasta:</strong> {{ $tiempo_fin}}</td>
   </tr>
 </table>
+<table>
+  <th><strong>Remunerado: </strong></th>
+  <td class="text">{{ $remunerado }}</td>
+</table>
 
 <table>
   <tr>
@@ -116,7 +123,15 @@
   </tr>
   <tr>
 </table>
-
+<table>
+  <tr>
+    <th class="text"><strong>Observaciones:</strong></th>
+  </tr>
+  <tr>
+    <td class="ancho2">{{ $obs }}</td>
+  </tr>
+  
+</table>
 <table>
   <tr>
   <th ><img src="{{ $image_j }}" class="img"/></th>
