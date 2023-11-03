@@ -1,15 +1,18 @@
 @extends('herencia.welcome')
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('img/favicon.png')}}">
-    <title>Bienvenido</title>
-</head>
-<body>
-    @section('content')
-    <div class="contenedor">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{{ asset('img/favicon.png')}}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('../../css/registro.css')}}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <title>Bienvenido</title>
+    </head>
+    <body>
+        @section('content')
+        <div class="contenedor">
             <form method="POST">
                 <div class="col-md-12">
                     <h4 id="h4">Ver los registros solicitados</h4>
@@ -24,8 +27,7 @@
                     </div>
                 </div>
             </form>
-        </div>    
-
-</body>
-@endsection
+        </div>
+        @endsection  
+    </body>
 </html>

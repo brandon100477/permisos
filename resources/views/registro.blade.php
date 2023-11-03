@@ -5,23 +5,18 @@
         <!--Solo se debe registrar personal con autorización, desde la pagina de inicio no se debería registrar.-->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <link rel="icon" href="{{ asset('img/favicon.png')}}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('../../css/registro.css')}}">
-
         <title>Registrar</title>
-
     </head>
-
     <body>
         <!--CSS: container register-->
         <div class="container">
             <form action="{{ route('ruta_cargo') }}" method="POST">
-            @csrf <!--Este metodo ayuda a que los datos del formulario se puedan enviar -->
+                @csrf <!--Este metodo ayuda a que los datos del formulario se puedan enviar -->
                 <div class="boton">
-                    <!--registro de datos a la db: Visitador_medico / tabla: login_usuarios-->
-                    <h2 name="regis" id="regis" class="texto_inicio">Registrar usuarios</h2>
+                    <h2 name="regis" id="regis" class="texto_inicio">Registrar usuarios</h2><!--registro de datos a la db-->
                 </div><br>
 
                 <h5 name="nombreApellido" id="nombreApellido"class="textos" >1. Nombre y apellido</h5>
@@ -59,7 +54,6 @@
                     <button class="btn-lg boton primary" type="submit" name="button1" id="button1">Continuar</button>
                 </div>
             </form>
-        </div>
-        <br>
+        </div><br>
     </body>
 </html>

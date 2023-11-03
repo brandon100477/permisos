@@ -20,14 +20,13 @@ return new class extends Migration
         Role::create(['name' => 'director', 'guard_name' => 'web']);
         Role::create(['name' => 'gerente', 'guard_name' => 'web']);
         Role::create(['name' => 'vicepresidente', 'guard_name' => 'web']);
-        
+        Role::create(['name' => 'lider_th', 'guard_name' => 'web']);
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-
+        Schema::dropIfExists('roles');
     }
 };
