@@ -63,12 +63,17 @@ class SolicitudController extends Controller
         $registro -> correo = $request -> correo;
         $registro -> password = bcrypt($request->contrasena);//Metodo para encriptar la contraseña por el metodo "Hash"
         $registro -> cedula = $request -> cedula;
+        if($registro->nombre === null){
+            return redirect('/Register');
+        }else{
         $registro ->save(); //Guarda todo el registro.
         return $this->foranea_sesion();
+        }
     }
     public function foranea_sesion()
     {
         $personas =personas::all();
+       
         return view('registro2', compact('personas'));//Redirecciona a la pagina del segundo registro para su respectivo logueo
     }
     public function principal(Request $request)

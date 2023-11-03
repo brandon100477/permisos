@@ -1,7 +1,7 @@
 body {
     font-family: "Open Sans", sans-serif;
     height: 100vh;
-    background-image: url('../../public/img/fondo1.webp');
+    background-image: url('../../public/img/fondo2.jpg');
     background-size: cover;
   }
   
@@ -137,7 +137,7 @@ body {
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.2);
   }
   .login:not(.loading) button:hover {
-    box-shadow: 0px 1px 3px rgb(0, 55, 75);
+    box-shadow: 0px 1px 3px #2196f3;
   }
   .login:not(.loading) button:focus {
     border-bottom-width: 4px;
