@@ -58,7 +58,7 @@ class SolicitudController extends Controller
     }
     public function registrar(Request $request)
     {
-        $registro = new personas();
+/*         $registro = new personas();
         $registro -> nombre= $request -> nombreApellido;
         $registro -> correo = $request -> correo;
         $registro -> password = bcrypt($request->contrasena);//Metodo para encriptar la contraseña por el metodo "Hash"
@@ -68,7 +68,8 @@ class SolicitudController extends Controller
         }else{
         $registro ->save(); //Guarda todo el registro.
         return $this->foranea_sesion();
-        }
+        } */
+        return $this->foranea_sesion();
     }
     public function foranea_sesion()
     {
@@ -103,7 +104,7 @@ class SolicitudController extends Controller
         if ($request->cargo === '6') {
             $registro->assignRole('lider_th');
         }
-        return redirect('/Login');
+        return redirect('/Login')->with('success', 'Registro exitoso');
     }
     public function logout(Request $request)//Función de cerrar sesión
     {
