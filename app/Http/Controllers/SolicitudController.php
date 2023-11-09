@@ -443,7 +443,7 @@ class SolicitudController extends Controller
         if($accion === 'prevista'){
             $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','hora_inicio','hora_fin','fecha_inicio','fecha_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));            
             return $pdf->stream();
-        }else if($accion ==='aprovar'){
+        }else if($accion ==='aprobar'){
             if (!empty($request->firma_jefe)) {
                 $file_j = time() . "." . $request->firma_jefe->extension();
                 $request->firma_jefe->move(public_path("image_j"), $file_j);
