@@ -18,47 +18,48 @@
             </div>
         </nav>
         <div class="container">
-        <h2>Aquí va los permisos firmados y registrados hasta la fecha</h2><br><br>
-        <div class="collapse show" id="collapseTable">
-            <div class="table-container">
-                <table>
-                    <tr>
-                        <th>Tipo de permiso</th>
-                        <th>Nombre</th>
-                        <th>Fecha de solicitud</th>
-                        <th>Especificación de cargo</th>
-                        <th>Aprovado / Rechazado</th>
-                        <th>Revizar</th>
-                    </tr>
-                    @foreach ($usuarios as $usuario)
-                        @foreach ($permisos as $permiso)
-                            @if ($usuario->id == $permiso->id_usuario)
-                                <tr>
-                                    <td>{{ $permiso->p_c_l }}</td>
-                                    <td>{{ $usuario->nombre }}</td>
-                                    <td>{{ $permiso->fecha_solicitud }}</td>
-                                    <td>
-                                    @foreach ($especificaciones as $especificacion)
-                                        @if ($especificacion->id_usuario == $usuario->id)
-                                            {{ $especificacion->especificacion }}
-                                        @endif
-                                    @endforeach
-                                    </td>
-                                    <td>
-                                    {{ $permiso->estado_solicitud }}
-                                    </td> 
-                                    <td>
-                                        <form action="{{ route('ruta_descargar') }}" method="post">
-                                            @csrf
-                                            <input type="hidden" name="ide" id="ide" value="{{ $permiso->id }}">
-                                            <button type="submit"><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endif
+            <h2>Aquí va los permisos firmados y registrados hasta la fecha</h2><br><br>
+            <div class="collapse show" id="collapseTable">
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Tipo de permiso</th>
+                            <th>Nombre</th>
+                            <th>Fecha de solicitud</th>
+                            <th>Especificación de cargo</th>
+                            <th>Aprobado / Rechazado</th>
+                            <th>Revizar</th>
+                        </tr>
+                        @foreach ($usuarios as $usuario)
+                            @foreach ($permisos as $permiso)
+                                @if ($usuario->id == $permiso->id_usuario)
+                                    <tr>
+                                        <td>{{ $permiso->p_c_l }}</td>
+                                        <td>{{ $usuario->nombre }}</td>
+                                        <td>{{ $permiso->fecha_solicitud }}</td>
+                                        <td>
+                                        @foreach ($especificaciones as $especificacion)
+                                            @if ($especificacion->id_usuario == $usuario->id)
+                                                {{ $especificacion->especificacion }}
+                                            @endif
+                                        @endforeach
+                                        </td>
+                                        <td>
+                                        {{ $permiso->estado_solicitud }}
+                                        </td> 
+                                        <td>
+                                            <form action="{{ route('ruta_descargar') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="ide" id="ide" value="{{ $permiso->id }}">
+                                                <button type="submit"><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
                         @endforeach
-                    @endforeach
-                </table>
+                    </table>
+                </div>
             </div>
         </div>
     </body>

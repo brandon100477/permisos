@@ -27,7 +27,7 @@
                         <tr>
                             <th>Tipo de permiso</th>
                             <th>Fecha de solicitud</th>
-                            <th>Pendiente - Aprovado - Rechazado</th>
+                            <th>Pendiente - Aprobado - Rechazado</th>
                             <th>Descargar permiso</th>
                         </tr>
                             @foreach ($datos as $dato)

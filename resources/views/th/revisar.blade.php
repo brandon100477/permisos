@@ -5,49 +5,58 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="{{ asset('img/favicon.png')}}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('../../css/registro.css')}}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <title>Autorización</title>
+        @vite(['resources/css/th/revisar.css'])
     </head>
     <body>
-        <section class="inicio">
-            <h2>Autorizar permisos</h2>
-            <a href="{{ route('ruta_volver')}}" class="cerrar" id="cerrar">Volver</a>
-        </section>
-        <p>Permisos solicitados hasta la fecha</p><br><br>
-        <table>
-            <tr>
-                <th>Tipo de permiso</th>
-                <th>Nombre</th>
-                <th>Fecha de solicitud</th>
-                <th>Especificación de cargo</th>
-                <th>Aprovar/Rechazar</th>
-            </tr>
-            @foreach ($usuarios as $usuario)
-                @foreach ($permisos as $permiso)
-                    @if ($usuario->id == $permiso->id_usuario)
+        <nav class="navbar" style="background-color: rgba(115,188,220,255);">
+            <div class="container-fluid">
+                <h3>Permisos Autorizados</h3>
+                <a href="{{ route('ruta_volver')}}" class="btn btn-light" id="cerrar">Volver</a>
+            </div>
+        </nav>
+        <div class="container">
+            <h2>Permisos solicitados hasta la fecha</h2><br><br>
+            <div class="collapse show" id="collapseTable">
+                <div class="table-container">
+                    <table>
                         <tr>
-                            <td>{{ $permiso->p_c_l }}</td>
-                            <td>{{ $usuario->nombre }}</td>
-                            <td>{{ $permiso->fecha_solicitud }}</td>
-                            <td>
-                                @foreach ($especificaciones as $especificacion)
-                                    @if ($especificacion->id_usuario == $usuario->id)
-                                        {{ $especificacion->especificacion }}
-                                    @endif
-                                @endforeach
-                            </td>
-                            <td>
-                                <form action="{{ route('ruta_firmar2') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="ide" id="ide" value="{{ $permiso->id }}">
-                                    <button type="submit">Revisar</button>
-                                </form>
-                            </td>
+                            <th>Tipo de permiso</th>
+                            <th>Nombre</th>
+                            <th>Fecha de solicitud</th>
+                            <th>Especificación de cargo</th>
+                            <th>Aprobar / Rechazar</th>
                         </tr>
-                    @endif
-                @endforeach
-            @endforeach
-        </table>
+                        @foreach ($usuarios as $usuario)
+                            @foreach ($permisos as $permiso)
+                                @if ($usuario->id == $permiso->id_usuario)
+                                    <tr>
+                                        <td>{{ $permiso->p_c_l }}</td>
+                                        <td>{{ $usuario->nombre }}</td>
+                                        <td>{{ $permiso->fecha_solicitud }}</td>
+                                        <td>
+                                            @foreach ($especificaciones as $especificacion)
+                                                @if ($especificacion->id_usuario == $usuario->id)
+                                                    {{ $especificacion->especificacion }}
+                                                @endif
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('ruta_firmar2') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="ide" id="ide" value="{{ $permiso->id }}">
+                                                <button type="submit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
