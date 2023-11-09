@@ -22,31 +22,31 @@
         <div class="container">
             <br><h2>Aquí va los permisos solicitados hasta la fecha</h2><br>
             <div class="collapse show" id="collapseTable">
-            <div class="table-container">
-            <table>
-                <tr>
-                    <th>Tipo de permiso</th>
-                    <th>Fecha de solicitud</th>
-                    <th>Pendiente - Aprovado - Rechazado</th>
-                    <th>Descargar permiso</th>
-                </tr>
-                    @foreach ($datos as $dato)
+                <div class="table-container">
+                    <table>
                         <tr>
-                            <td>{{ $dato -> p_c_l }}</td>
-                            <td>{{ $dato -> fecha_solicitud }}</td>
-                            <td>{{ $dato -> estado_solicitud }}</td>
-                            <td>
-                                <form action="{{ route('ruta_descargar')}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="ide" id="ide" value="{{ $dato -> id}}">
-                                    <button type="submit"><i class="fa fa-download" aria-hidden="true"></i></button>
-                                </form>
-                            </td>
+                            <th>Tipo de permiso</th>
+                            <th>Fecha de solicitud</th>
+                            <th>Pendiente - Aprovado - Rechazado</th>
+                            <th>Descargar permiso</th>
                         </tr>
-                    @endforeach
-            </table>
+                            @foreach ($datos as $dato)
+                                <tr>
+                                    <td>{{ $dato -> p_c_l }}</td>
+                                    <td>{{ $dato -> fecha_solicitud }}</td>
+                                    <td>{{ $dato -> estado_solicitud }}</td>
+                                    <td>
+                                        <form action="{{ route('ruta_descargar')}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="ide" id="ide" value="{{ $dato -> id}}">
+                                            <button type="submit"><i class="fa fa-download" aria-hidden="true"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                    </table>
+                </div>
             </div>
-        </div>
         </div>
     </body>
 </html>
