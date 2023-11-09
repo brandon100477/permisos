@@ -91,7 +91,4 @@
             </form>
         </div><br>
     </body>
-    <script>
-
-    </script>
 </html>

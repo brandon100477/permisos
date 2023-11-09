@@ -21,6 +21,8 @@
         </nav>
         <div class="container">
             <br><h2>Aquí va los permisos solicitados hasta la fecha</h2><br>
+            <div class="collapse show" id="collapseTable">
+            <div class="table-container">
             <table>
                 <tr>
                     <th>Tipo de permiso</th>
@@ -43,6 +45,8 @@
                         </tr>
                     @endforeach
             </table>
+            </div>
+        </div>
         </div>
     </body>
 </html>

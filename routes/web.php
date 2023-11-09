@@ -53,8 +53,7 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::get('/Permisos-jefe', 'permisos')->name('ruta_permisos2')->middleware('auth');
 
         //Ruta para firmar cualquier permiso
-        Route::post('/Permisos/Firmado', 'firmado')->name('ruta_firmar')->middleware('auth');
-        Route::get('/Permisos/Firmado', 'firmado')->name('ruta_firmar')->middleware('auth');
+        Route::any('/Permisos/Firmado', 'firmado')->name('ruta_firmar')->middleware('auth');
         //Ruta para previsualizar cualquier permiso
         Route::post('/Permisos/Prevista', 'prevista')->name('ruta_prevista')->middleware('auth');
         Route::get('/Permisos/Prevista', 'prevista')->name('ruta_prevista')->middleware('auth');
