@@ -1,5 +1,4 @@
 @extends('herencia.father')
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -37,10 +36,10 @@
                 <br><br>
                 <button type="submit">
                     <i class="spinner"></i>
-                    <span  class="state">Sing In</span>
+                    <span class="state">Sing In</span>
                 </button>
             </form>
-            <footer>¿Aùn no tienes una cuenta? puedes registrarse <a target="blank" href="Register"><strong>aquì</strong> </a></footer>
+            <footer>¿Aùn no tienes una cuenta? puedes registrarse <a target="blank" href="Register"><strong>aquì</strong></a></footer>
         </div>
     </body>     
 </html>

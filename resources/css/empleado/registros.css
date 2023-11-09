@@ -18,23 +18,17 @@ h2 {
     margin: 0;
 }
 .table-container {
-    
     max-height: 500px; /* Altura máxima de la tabla con desplazamiento */
-    overflow-y: scroll;
-
+    overflow-y: scroll;  /* Agrega una barra de desplazamiento vertical cuando sea necesario en la tabla*/
     text-align: center;
     margin: 10px;
-     /* Agrega una barra de desplazamiento vertical cuando sea necesario */
 }
-
 #table {
     flex: 3;
 }
-
-
 .table-container table {
     direction: ltr;
-  }
+}
 table.table-container {
     width: 100%;
     margin-top: 0;
@@ -45,7 +39,7 @@ table {
     border-collapse: collapse;
     width: auto; /* Ancho de la tabla*/
     text-align: center;
-    overflow: auto; /* Agregar barra de desplazamiento cuando sea necesario */
+    overflow: auto;
     margin-top: px;
 }
 #collapseTable{
@@ -54,28 +48,21 @@ table {
     margin: 10px;
     border-radius: 5px;
     flex: 100% 100%;
-    
 }
-
 .table-container::-webkit-scrollbar {
     width: 10px;
- }
- 
- .table-container::-webkit-scrollbar-track {
+}
+.table-container::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
- }
- 
- .table-container::-webkit-scrollbar-thumb {
+}
+.table-container::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 10px;
- }
- 
- .table-container::-webkit-scrollbar-thumb:hover {
+}
+.table-container::-webkit-scrollbar-thumb:hover {
     background: #555;
- }
-
-
+}
 table, th, td {
     border: 2px solid #b1b1b1; /* Bordes de la tabla*/
 }

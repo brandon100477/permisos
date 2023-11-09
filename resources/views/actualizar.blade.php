@@ -30,18 +30,14 @@
                     <input type="text" id="" name="" value="{{ $actualizar->estado_solicitud }}" readonly>
                     <label name="titulo" id="titulo" class="textos"><h5> Tipo de permiso:</h5></label>
                     <input type="text" id="p_c_l" name="p_c_l" value="{{ $actualizar->p_c_l }}" readonly>
-
                     <h5 name="titulo" id="titulo"class="textos" > Hora del permiso:</h5>
                         <p>De <input name="hora_inicio" type="time"  value="{{ $actualizar->hora_inicio}}" readonly> a <input name="hora_fin" type="time" value="{{ $actualizar->hora_fin}}" readonly></p>
                         <h5 name="titulo" id="titulo"class="textos" > Fecha del permiso:</h5>
-                        <p>Desde la fecha: <input  type="date"  name="fecha_inicio" placeholder="dd/mm/aaaa" value="{{ $actualizar->dia_inicio}}" readonly> Hasta: <input  type="date"  name="fecha_fin" placeholder="dd/mm/aaaa" value="{{ $actualizar->dia_fin}}" readonly> </p>
-
+                        <p>Desde la fecha: <input  type="date"  name="fecha_inicio" placeholder="dd/mm/aaaa" value="{{ $actualizar->dia_inicio}}" readonly> Hasta: <input  type="date"  name="fecha_fin" placeholder="dd/mm/aaaa" value="{{ $actualizar->dia_fin}}" readonly></p>
                     <h5 name="titulo" id="titulo"class="textos">Motivo del permiso</h5>
                     <input type="text" id="permiso" name="permiso" value="{{ $actualizar->info_permiso}}" readonly>
-
                     <h5 name="nombreApellido" id="nombreApellido"class="textos" >Firmado por el empleado:</h5>
                     <img src="{{ asset('image_e/' . $actualizar->firma_empleado) }}" class="img" />
-                    
                     <h5 name="nombreApellido" id="nombreApellido"class="textos">Remunerado: </h5>
                     <div class="radio">
                         <input type="radio" id="op1" name="adicional" value="Si" required>
@@ -49,13 +45,10 @@
                         <input type="radio" id="op2" name="adicional" value="No">
                         <label for="op2">No</label>
                     </div>
-
                     <h5 name="titulo" id="titulo"class="textos" > Observaciones</h5>
                     <input type="text" class="" id="observaciones" name="observaciones" placeholder="Justificar: Opcional">
-
                     <h5 name="nombreApellido" id="nombreApellido"class="textos" >Firma de jefe inmediato.</h5>
                     <input type="file" class="" id="firma_jefe" name="firma_jefe" placeholder="Firma" required>
-
                     <h5 name="nombreApellido" id="nombreApellido"class="textos" >Pendiente de firmar por Talento Humano.</h5><br>
                 </div>
                 <div class="boton">

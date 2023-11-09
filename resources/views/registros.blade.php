@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,7 +9,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         @vite(['resources/css/empleado/registros.css'])
         <title>Registro</title>
-        
     </head>
     <body>
         <nav class="navbar" style="background-color: rgba(115,188,220,255);">

@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const buttonAprobar = document.getElementById("button2");
     const buttonRechazar = document.getElementById("button3");
- 
     buttonAprobar.addEventListener("click", async function (event) {
         event.preventDefault();
         await mostrarAlerta();
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
         form.appendChild(input);
         form.submit();
     });
- 
     buttonRechazar.addEventListener("click", async function (event) {
         event.preventDefault();
         await mostrarAlerta();
@@ -24,8 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         form.appendChild(input);
         form.submit();
     });
- });
- 
- async function mostrarAlerta() {
+});
+async function mostrarAlerta() {
     await Swal.fire('¡Perfecto!', 'Registro actualizado con éxito', 'success');
- }
+}

@@ -20,7 +20,7 @@
                             <a href="{{ route('ruta_solicitud') }}" id="butons">Ver</a>
                         </div><br><br><br><br>
                         <h4 id="h4">Ver los registros solicitados</h4>
-                        <div >
+                        <div>
                             <a href="{{ route('ruta_registros') }}" id="butons">Ver</a>
                         </div><br><br><br><br>
                         <h4 id="h4">Solicitar un nuevo permiso</h4>

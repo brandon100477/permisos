@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -14,7 +13,6 @@
         <title>Registrar</title>
         @vite(['resources/css/registrarse2.css','resources/js/registrarse.js'])
     </head>
-
     <body>
         <!--CSS: container register-->
         <div class="wrapper">
@@ -23,7 +21,6 @@
                 <div class="boton">
                     <h2 name="regis" id="regis" class="texto_inicio">Registrar Cargo</h2><!--registro 2 de datos a la db-->
                 </div><br>
-
                 <label name="personas" id="personas" class="textos" ><h5>Profesionales de la empresa:</h5></label><br>
                 <div class="selectdiv">
                     <select type="submit" id="personas" name="personas" class="select" value="" required >	
@@ -33,7 +30,6 @@
                         @endforeach
                     </select><br><br>
                 </div>
-
                 <label name="empresa" id="empresa" class="textos"><h5> Seleccione la Empresa:</h5></label><br>
                 <div class="selectdiv">
                     <select type="submit" id="empresa" name="empresa" class="select" value="" required>	
@@ -43,7 +39,6 @@
                         <option value="3"> Diaxme Salud</option>
                     </select><br>
                 </div>
-
                 <label name="area" id="area" class="textos"><h5>Seleccione el area:</h5></label><br>
                 <div class="selectdiv">
                     <select type="submit" id="area" name="area" class="select" value="" required>	
@@ -62,7 +57,6 @@
                         <option value="12">Gerencia médica</option>
                     </select><br>
                 </div>
-
                 <label name="cargo" id="cargo" class="textos"><h5>Seleccione su cargo:</h5></label><br>
                 <div class="selectdiv">
                     <select type="submit" id="cargo" name="cargo" class="select" value="" required>	
@@ -75,7 +69,6 @@
                         <option value="6">Lider T.H. para firmar</option> <!-- Preguntar si se puede quitar luego -->
                     </select><br>
                 </div>
-
                 <h5 name="especifi" id="especifi" class="textos" >Especificación del cargo: </h5>
                 <input type="text" class=" form-control @error('especifi') is-invalid @enderror" name="especifi" id="especifi" placeholder="Empleado - Tecnología - Líder de... - Director de... " required>
                 <i class="fa fa-briefcase" aria-hidden="true"></i>
@@ -84,7 +77,6 @@
                 {{ $message }}
                 @enderror
                 <br>
-
                 <div class="boton">
                     <button class="btn-lg boton primary" type="submit" name="button1" id="button1">Registrarse</button>
                 </div>

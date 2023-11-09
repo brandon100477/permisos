@@ -12,8 +12,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class SolicitudController extends Controller
 {
     public function login(Request $request)
-    //login validación y autenticación usuarios
-    {
+    {//login validación y autenticación usuarios
         return view('login');
     }
     public function login_inicio(Request $request)
@@ -73,7 +72,6 @@ class SolicitudController extends Controller
     public function foranea_sesion()
     {
         $personas =personas::all();
-       
         return view('registro2', compact('personas'));//Redirecciona a la pagina del segundo registro para su respectivo logueo
     }
     public function principal(Request $request)
@@ -209,15 +207,11 @@ class SolicitudController extends Controller
         $fecha_inicio = $request->session()->get('fecha_inicio');
         $fecha_fin = $request->session()->get('fecha_fin');
         $justificacion = $request->session()->get('justificacion');
-
-        //Datos sacados de la DB usuarios
         $id =auth()->user()->id;
-        $usuario = personas::where('id', $id)->first();
+        $usuario = personas::where('id', $id)->first();//Datos sacados de la DB usuarios
         $nombre = $usuario->nombre;
         $cedula = $usuario->cedula;
-
-        //Datos sacados de la DB empresa
-        $cargo = Empresa::where('id_usuario', $id)->first();
+        $cargo = Empresa::where('id_usuario', $id)->first();//Datos sacados de la DB empresa
         $empresas = [ //asiganción de empresa
             '1' => 'Cedicaf',
             '2' => 'Radiologos Asociados',
@@ -259,7 +253,6 @@ class SolicitudController extends Controller
         $empresa = $cargos->empresa;
         $area = $cargos->area;
         $car = $cargos->cargo;
-        
         $empleado = Empresa::where('empresa', $empresa)->where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
         $usuarios = personas::whereIn('id', $empleado)->get();
@@ -385,10 +378,8 @@ class SolicitudController extends Controller
         $justificacion = $permiso_update->info_permiso;
         $hora_inicio = $permiso_update->hora_inicio;
         $hora_fin = $permiso_update->hora_fin;
-
         $fecha_inicio = $permiso_update->dia_inicio;
         $fecha_fin = $permiso_update->dia_fin;
-
         $firma_e = $permiso_update->firma_empleado;
         $firma_j = $permiso_update->firma_jefe;
         $firma_th = $permiso_update->firma_th;
@@ -522,8 +513,7 @@ class SolicitudController extends Controller
         }
     }
     public function autorizar(Request $request)
-    //Visualizar que permisos se han tomado para darles la ultima autorización
-    {
+    {//Visualizar que permisos se han tomado para darles la ultima autorización
         $id=auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
         $empresa = $cargos->empresa;
@@ -536,7 +526,7 @@ class SolicitudController extends Controller
             $usuarios = personas::WhereIn('id',$empleado)->get();
             $permisos = permisos::whereNotNull('firma_jefe')->where('firma_th', null)->get();
             return view('th.revisar', compact('permisos', 'usuarios', 'especificaciones'));
-    }
+        }
         return view('th.princial');
     }
     public function archivo(Request $request)
@@ -554,7 +544,7 @@ class SolicitudController extends Controller
             $usuarios = personas::WhereIn('id',$empleado)->get();
             $permisos = permisos::whereNotNull('firma_th')->get();
             return view('th.archivo', compact('permisos', 'usuarios', 'especificaciones'));
-    }
+        }
         return view('th.princial');
     }
     public function firmar(Request $request)

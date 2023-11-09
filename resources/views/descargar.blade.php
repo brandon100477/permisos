@@ -1,39 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <meta charset="UTF-8">
-      <!--<meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-      <!-- <link rel="icon" href="{{ asset('img/favicon.png')}}">
-          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-          <link rel="stylesheet" href="{{ asset('../../css/registro.css')}}"> -->
-      <title>Decargando</title>
+    <meta charset="UTF-8">
+    <title>Decargando</title>
   </head>
   <style>
     table, th, td{
-        width: 100%;
-        border: 1px solid black;
-        border-collapse: collapse;
-        text-align: center;
+      width: 100%;
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align: center;
     }
     th, td{
-        padding: 5px;
+      padding: 5px;
     }
 
     .text{
-        text-align: left;
+      text-align: left;
     }
 
     .ancho{
-        padding: 10px;
+      padding: 10px;
     }
     .ancho2{
       padding: 30px;
     }
     .tam{
-        font-size: 15px;
+      font-size: 15px;
     }
     .fondo{
-        background-color: #D3D3D3;
+      background-color: #D3D3D3;
     }
     .img{
       width: 300px;
