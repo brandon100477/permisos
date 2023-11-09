@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="{{ asset('../../css/registro.css')}}">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <title>Bienvenido</title>
+        @vite(['resources/css/th/principal.css'])
     </head>
     <body>
         @section('content')
@@ -16,13 +17,9 @@
             <form method="POST">
                 <div class="col-md-12">
                     <h4 id="h4">Ver los registros solicitados.</h4>
-                    <div class="card">
-                        <a href="{{ route('ruta_autorizar') }}" id="butons">Ver</a>
-                    </div><br><br><br><br>
+                        <a href="{{ route('ruta_autorizar') }}" id="butons">Ver</a><br><br><br><br>
                     <h4 id="h4">Ver todos los registro ya firmados</h4>
-                    <div class="card">
-                        <a href="{{ route('ruta_archivo') }}" id="butons">Ver</a>
-                    </div><br><br><br><br>
+                        <a href="{{ route('ruta_archivo') }}" id="butons">Ver</a><br><br><br><br>
                 </div>
             </form>
         </div>
