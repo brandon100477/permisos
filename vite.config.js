@@ -10,7 +10,7 @@ export default defineConfig({
                     'resources/css/empleado/registros.css', 'resources/css/empleado/nuevo_permiso.css', 'resources/js/nuevo_permiso.js',
                     'resources/css/jefe/jefe.css', 'resources/css/jefe/solicitud.css', 'resources/css/th/principal.css',
                     'resources/css/jefe/actualizar.css', 'resources/js/actualizar.js', 'resources/css/th/archivo.css',
-                    'resources/css/th/revisar.css', ],
+                    'resources/css/th/revisar.css', 'resources/css/th/firmar.css', 'resources/js/firmar.js' ],
             refresh: true,
         }),
     ],
