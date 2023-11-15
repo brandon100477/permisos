@@ -52,7 +52,7 @@
                     <h5 name="nombreApellido" id="nombreApellido"class="textos" >Pendiente de firmar por Talento Humano.</h5><br>
                 </div>
                 <div class="boton">
-                    <button class="btn-lg boton primary" type="submit" name="submit_action" value="prevista" id="button1">Pre-vista</button>
+                    <button class="btn-lg boton primary" type="submit" name="submit_action" value="prevista" id="button1">Pre-vista</button><br><br><br><br><br>
                 </div>
             </form>
         </div>
