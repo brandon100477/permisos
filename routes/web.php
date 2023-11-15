@@ -24,12 +24,12 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::get('/Login', 'login')->name('ruta_login');
 
         // 1° parte del Registro (Datos personales)
-        Route::get('/Register', 'register')->name('ruta_registrar'); //GET:Se envían los datos por URL
-        Route::post('Rregister', 'register')->name('ruta_registrar'); //POST:Se envían los datos de forma oculta
+        Route::get('/Register', 'register')->name('ruta_registrar')->middleware('auth'); //GET:Se envían los datos por URL
+        Route::post('/Register', 'register')->name('ruta_registrar')->middleware('auth'); //POST:Se envían los datos de forma oculta
 
         // 2° parte del Registro (Datos de la empresa)
-        Route::get('/Register/Cargo', 'registrar')->name('ruta_cargo');
-        Route::post('/Register/Cargo', 'registrar')->name('ruta_cargo'); 
+        Route::get('/Register/Cargo', 'registrar')->name('ruta_cargo')->middleware('auth');
+        Route::post('/Register/Cargo', 'registrar')->name('ruta_cargo')->middleware('auth'); 
 
         //Ruta de la vista principal
         Route::post('/Registrado', 'principal')->name('ruta_principal');
@@ -45,9 +45,17 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::post('/Registros', 'registros')->name('ruta_registros')->middleware('auth');
         Route::get('/Registros', 'registros')->name('ruta_registros')->middleware('auth');
 
-        // Ruta para lideres y jefes inmediatos puedan ver permisos de empleados
-        Route::post('/Solicitud-jefe/Revisar', 'solicitud')->name('ruta_solicitud')->middleware('auth');
-        Route::get('/Solicitud-jefe', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+        // Ruta para lideres y jefes inmediatos puedan ver todos los permisos de empleados
+        Route::post('/Solicitud-jefe/Revisar', 'solicitudes')->name('ruta_solicitudes')->middleware('auth');
+        Route::get('/Solicitud-jefe', 'solicitudes')->name('ruta_solicitudes')->middleware('auth');
+
+
+        // Ruta para lideres y jefes inmediatos puedan ver todos los permisos pendientes de empleados
+        Route::post('/Firmar-jefe/Revisar', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+        Route::get('/Firmar-jefe', 'solicitud')->name('ruta_solicitud')->middleware('auth');
+
+
+
         // Ruta para un nuevo permiso  de lideres y superior
         Route::post('/Permisos-jefe', 'permisos')->name('ruta_permisos2')->middleware('auth');
         Route::get('/Permisos-jefe', 'permisos')->name('ruta_permisos2')->middleware('auth');
@@ -68,6 +76,10 @@ Route::controller(SolicitudController::class)->group(function(){
         //Ruta para ver la vista de aprobar o rechazar el permiso
         Route::post('/Solicitud-jefe/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
         Route::get('/Solicitud-jefe/Revisar', 'revisar')->name('ruta_revisar')->middleware('auth');
+
+                //Ruta para ver la vista de aprobar o rechazar el permiso
+                Route::post('/Firmar-jefe/Revisar', 'revisar2')->name('ruta_revisar2')->middleware('auth');
+                Route::get('/Firmar-jefe/Revisar', 'revisar2')->name('ruta_revisar2')->middleware('auth');
 
         //Ruta donde se ejecuta el aprobar o rechazar el permiso
         Route::post('/Solicitud-jefe/Revisar/Actualizar', 'actualizar')->name('ruta_actualizar')->middleware('auth');
@@ -92,8 +104,11 @@ Route::get('/Principal', function () { //Ruta para volver a la vista principal d
 Route::get('/Solicitud-jefe/volver', function () { //Ruta para volver a la vista donde se solicitan los permisos - es una vista de lideres y superiores
         return redirect('/Solicitud-jefe');})->middleware('auth')->name('ruta_volver1');
 
-        Route::get('/Autorizar/volver', function () { //Ruta para volver a la vista donde se ven todos los permisos que faltan por firmar por parte de TH
-                return redirect('/Autorizar');})->middleware('auth')->name('ruta_volver2');
+Route::get('/Autorizar/volver', function () { //Ruta para volver a la vista donde se ven todos los permisos que faltan por firmar por parte de TH
+        return redirect('/Autorizar');})->middleware('auth')->name('ruta_volver2');
+
+Route::get('/Firmar-jefe/volver', function () { //Ruta para volver a la vista donde se ven todos los permisos que faltan por firmar por parte de TH
+        return redirect('/Firmar-jefe');})->middleware('auth')->name('ruta_volver3');
 
 Route::get('/Principal-lider', function () { //Ruta para volver a principal lider
         return view('jefe');})->middleware('auth');
@@ -110,5 +125,5 @@ Route::get('/Principal-vicepresidencia', function () { //Ruta para volver a prin
 Route::get('/Principal-th', function () { //Ruta para volver a principal TH
         return view('th.principal');})->middleware('auth');
 
-Route::get('/Pruebas', function () { //Ruta para hacer pruebas
+Route::get('/Error', function () { //Ruta para hacer pruebas
         return view('prueba');})->middleware('auth');

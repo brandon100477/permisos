@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <title>Registro</title>
-        @vite(['resources/css/jefe/solicitud.css'])
+        @vite(['resources/css/jefe/solicitudes.css'])
     </head>
     <body>
         <nav class="navbar" style="background-color: rgba(115,188,220,255);">
@@ -44,7 +44,7 @@
                                         @endforeach
                                         </td>
                                         <td>
-                                            <form action="{{ route('ruta_revisar2') }}" method="post">
+                                            <form action="{{ route('ruta_revisar') }}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="ide" id="ide" value="{{ $permiso->id }}">
                                                 <button type="submit"><i class="fa fa-eye" aria-hidden="true"></i></button>

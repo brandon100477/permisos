@@ -77,6 +77,9 @@ class SolicitudController extends Controller
     public function principal(Request $request)
     {
         $registro = new empresa();
+        if($registro->id_usuario === null){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+        }
         $registro-> id_usuario = $request -> personas;
         $registro -> empresa= $request -> empresa;
         $registro -> area = $request->area; 
@@ -128,6 +131,9 @@ class SolicitudController extends Controller
     public function descargar(Request $request)
     {
         $id_permiso = $request ->ide;
+        if($id_permiso === null){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+        }
         $id_usuario=auth()->user()->id;
         $datos_permiso = permisos::where('id', $id_permiso)->first();
         $pcl = $datos_permiso->p_c_l;
@@ -250,19 +256,42 @@ class SolicitudController extends Controller
     {
         $id = auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
+        if($cargos->cargo ==='1'){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+        };
         $empresa = $cargos->empresa;
         $area = $cargos->area;
         $car = $cargos->cargo;
         $empleado = Empresa::where('empresa', $empresa)->where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
         $usuarios = personas::whereIn('id', $empleado)->get();
-        $permisos = permisos::whereIn('id_usuario', $empleado)->get();
+        $permisos = permisos::whereIn('id_usuario', $empleado)->orderby('fecha_solicitud','asc')->get();
         return view('lider.solicitud', compact('permisos', 'usuarios', 'especificaciones'));
+    }
+    public function solicitudes()
+    {
+        $id = auth()->user()->id;
+        $cargos = Empresa::where('id_usuario', $id)->first();
+        if($cargos->cargo ==='1'){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+        };
+        $empresa = $cargos->empresa;
+        $area = $cargos->area;
+        $car = $cargos->cargo;
+        $empleado = Empresa::where('empresa', $empresa)->where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
+        $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
+        $usuarios = personas::whereIn('id', $empleado)->get();
+        $permisos = permisos::whereIn('id_usuario', $empleado)->where('estado_solicitud', 'Pendiente')->orderby('fecha_solicitud','asc')->get();
+        return view('lider.solicitudes', compact('permisos', 'usuarios', 'especificaciones'));
     }
     public function firmado(Request $request)
     {    
         $accion = $request->input('submit_action');
         $datos = $request->all();
+        if(empty($datos)){ //Condicion para mostrar mensaje de error controlado
+           return redirect('/Error');
+        }
+        
         if ($datos['permiso'] === 'Otro') {// Verifica si se seleccionó "Otro" como motivo del permiso
             $justificacion = $datos['justificado'];// Guarda el valor justificado.
         }else{
@@ -357,6 +386,9 @@ class SolicitudController extends Controller
     public function revisar(Request $request)
     {
         $ide = $request->ide;
+        if($ide === null){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+        }
         $actualizar = permisos::where('id', $ide)->first();
         $permiso_id = $actualizar->id;
         $id=auth()->user()->id;
@@ -365,6 +397,21 @@ class SolicitudController extends Controller
         $cargo= empresa::where('id_usuario', $id)->first();
         $id_cargo= $cargo->id;//Asignación del cargo
         return view('actualizar', compact('permiso_id','actualizar','id_usuario', 'id_cargo'));//Redirecciona a la pagina de solicitud de permisos
+    }
+    public function revisar2(Request $request)
+    {
+        $ide = $request->ide;
+        if($ide === null){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+        }
+        $actualizar = permisos::where('id', $ide)->first();
+        $permiso_id = $actualizar->id;
+        $id=auth()->user()->id;
+        $usuario =personas::where('id', $id)->first();
+        $id_usuario= $usuario->id;
+        $cargo= empresa::where('id_usuario', $id)->first();
+        $id_cargo= $cargo->id;//Asignación del cargo
+        return view('actualizar2', compact('permiso_id','actualizar','id_usuario', 'id_cargo'));//Redirecciona a la pagina de solicitud de permisos
     }
     public function actualizar(Request $request)
     {
@@ -526,8 +573,10 @@ class SolicitudController extends Controller
             $usuarios = personas::WhereIn('id',$empleado)->get();
             $permisos = permisos::whereNotNull('firma_jefe')->where('firma_th', null)->get();
             return view('th.revisar', compact('permisos', 'usuarios', 'especificaciones'));
+        }else if($car === '1' || $car === '2'|| $car === '3'|| $car === '4' || $car === '5'){
+                return redirect('/Error');
         }
-        return view('th.princial');
+    return view('th.princial');
     }
     public function archivo(Request $request)
     //Desde la solicitud de permisos, volver a la vista según corresponda
@@ -544,12 +593,17 @@ class SolicitudController extends Controller
             $usuarios = personas::WhereIn('id',$empleado)->get();
             $permisos = permisos::whereNotNull('firma_th')->get();
             return view('th.archivo', compact('permisos', 'usuarios', 'especificaciones'));
-        }
-        return view('th.princial');
+        }else if($car === '1' || $car === '2'|| $car === '3'|| $car === '4' || $car === '5'){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+    }
+    return view('th.princial');
     }
     public function firmar(Request $request)
     {
         $ide = $request->ide;
+        if($ide === null){ //Condicion para mostrar mensaje de error controlado
+            return redirect('/Error');
+        }
         $actualizar = permisos::where('id', $ide)->first();
         $permiso_id = $actualizar->id;
         $id=auth()->user()->id;

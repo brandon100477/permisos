@@ -9,15 +9,24 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 90vh; /* Ajusta la altura del contenedor*/
-    text-align: center; /* Alinea el texto en el centro */
+    height: 90vh; /* Altura del contenedor*/
+    text-align: center; /* Alinea el texto */
+}
+.container{
+    display: grid;
+    grid-template-columns: 65% 65%;
+    margin: 20px auto;
+    padding: 20px auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 .col-md-12 {
     max-width: 600px; 
     margin: 0 auto; 
 }
 #h4 {
-    font-size: 30px; /* Ajusta el tamaño del título*/
+    font-size: 30px; /* Tamaño del título*/
 }
 #butons {
     display: block;

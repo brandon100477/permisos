@@ -15,14 +15,20 @@
             <div class="contenedor">
                 <form method="POST">
                     <div class="col-md-12">
-                        <h4 id="h4">Ver los registros solicitados de los empleados, líderes, directores o gerentes</h4>
-                        <div>
-                            <a href="{{ route('ruta_solicitud') }}" id="butons">Ver</a>
-                        </div><br><br><br><br>
+                        <div class="container"> 
+                            <h4 id="h4">Ver los registros pendientes</h4>
+                            <h4 id="h4">Ver todos los registros de empleados</h4>
+                            <div>
+                                <a href="{{ route('ruta_solicitudes') }}" id="butons">Ver</a>
+                            </div>
+                            <div>
+                                <a href="{{ route('ruta_solicitud') }}" id="butons">Ver</a>
+                            </div><br><br>
+                        </div>
                         <h4 id="h4">Ver los registros solicitados</h4>
                         <div>
                             <a href="{{ route('ruta_registros') }}" id="butons">Ver</a>
-                        </div><br><br><br><br>
+                        </div><br><br><br>
                         <h4 id="h4">Solicitar un nuevo permiso</h4>
                         <div>
                             <a href="{{ route('ruta_permisos2') }}" id="butons">Diligenciar</a>
