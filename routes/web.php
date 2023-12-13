@@ -96,6 +96,13 @@ Route::controller(SolicitudController::class)->group(function(){
         //Ruta ver los permisos ya firmados
         Route::post('/Revisar', 'archivo')->name('ruta_archivo')->middleware('auth');
         Route::get('/Revisar', 'archivo')->name('ruta_archivo')->middleware('auth');
+
+        //Ruta para las exportaciones en excel y pdf
+        Route::get('/Exportar', 'exportar')->name('ruta_exportar')->middleware('auth');
+        Route::post('/Exportar', 'exportar')->name('ruta_exportar')->middleware('auth');
+
+
+
 });
 
 Route::get('/Principal', function () { //Ruta para volver a la vista principal de empleados

@@ -17,11 +17,11 @@
             <form method="POST">
                 <div class="col-md-12">
                     <h4 id="h4">Registrar usuarios.</h4>
-                        <a href="{{ route('ruta_registrar') }}" id="butons">Registrar</a><br><br><br><br>
+                        <a href="{{ route('ruta_registrar') }}" id="butons">Registrar</a><br><br>
                     <h4 id="h4">Ver los registros solicitados.</h4>
-                        <a href="{{ route('ruta_autorizar') }}" id="butons">Ver</a><br><br><br><br>
+                        <a href="{{ route('ruta_autorizar') }}" id="butons">Ver</a><br><br>
                     <h4 id="h4">Ver todos los registro ya firmados</h4>
-                        <a href="{{ route('ruta_archivo') }}" id="butons">Ver</a><br><br><br><br>
+                        <a href="{{ route('ruta_archivo') }}" id="butons">Ver</a><br><br>
                 </div>
             </form>
         </div>

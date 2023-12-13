@@ -77,9 +77,6 @@ class SolicitudController extends Controller
     public function principal(Request $request)
     {
         $registro = new empresa();
-        if($registro->id_usuario === null){ //Condicion para mostrar mensaje de error controlado
-            return redirect('/Error');
-        }
         $registro-> id_usuario = $request -> personas;
         $registro -> empresa= $request -> empresa;
         $registro -> area = $request->area; 
@@ -104,7 +101,7 @@ class SolicitudController extends Controller
         if ($request->cargo === '6') {
             $registro->assignRole('lider_th');
         }
-        return redirect('/Login')->with('success', 'Registro exitoso');
+        return redirect('/Principal-th')->with('success', 'Registro exitoso');
     }
     public function logout(Request $request)//Función de cerrar sesión
     {
@@ -612,5 +609,9 @@ class SolicitudController extends Controller
         $cargo= empresa::where('id_usuario', $id)->first();
         $id_cargo = $cargo->id;//Asignación del cargo
         return view('th.firmar', compact('permiso_id','actualizar','id_usuario', 'id_cargo'));//Redirecciona a la pagina de solicitud de permisos
+    }
+
+    public function exportar(Request $request){
+        return redirect('/Error');
     }
 }
