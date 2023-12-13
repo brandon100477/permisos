@@ -20,14 +20,15 @@
         <div class="container">
             <h2>Aquí va los permisos firmados y registrados hasta la fecha</h2><br><br>
             <div class="buttons">
-            <button  value="Seleccionar todo" class="btn btn-warning btn-sm" id="seleccionarTodo">Seleccionar todo</button>
-            <input type="hidden" name="seleccionados" id="seleccionados" value="">
+            
             
             <form action="{{ route('ruta_exportar')}}" method="post">
-           
-                <button type="submit" class="btn btn-warning btn-sm" id="boton_excel">Descargar Excel</button><!-- Botón para exportar el excel -->
-                <button type="submit" class="btn btn-warning btn-sm" id="boton_pdf">Descargar PDF'S</button><!-- Botón para exportar el excel -->
-                </form>
+            @csrf
+            <input type="button"  value="Seleccionar todo" class="btn btn-warning btn-sm" id="seleccionarTodo">
+            <input type="hidden" name="seleccionados" id="seleccionados" value="">
+                <button type="submit" class="btn btn-warning btn-sm" id="boton_excel" value="botton1" name="submit_action">Descargar Excel</button><!-- Botón para exportar el excel -->
+                <button type="submit" class="btn btn-warning btn-sm" id="boton_pdf" value="botton2" name="submit_action">Descargar PDF'S</button><!-- Botón para exportar el excel -->
+            </form>
             </div><br>
             <div class="collapse show" id="collapseTable">
                 <div class="table-container">

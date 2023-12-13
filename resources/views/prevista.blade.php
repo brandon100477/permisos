@@ -26,12 +26,16 @@
       .fondo{
         background-color: #D3D3D3;
       }
+      .img{
+      width: 300px;
+      height: 60px;
+    }
   </style>
   <body>
     <h2>Prevista del permiso, compensatorio o licencia:</h2>
     <table>
       <tr>
-        <th rowspan="3">Logo</th>
+        <th rowspan="3"><td><img src="{{ $image_logo }}"  class="img" /></td></th>
         <td><strong>Administración del personal</strong></td>
         <td class="text"><strong>Código: GTH-ADP-FO-011</strong></td>
       </tr>

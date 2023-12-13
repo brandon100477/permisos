@@ -40,7 +40,7 @@
     <h2>Permiso, compensatorio o licencia:</h2>
     <table>
       <tr>
-        <th rowspan="3">Logo</th>
+        <th rowspan="3"><img src="{{ $image_logo }}"  class="img" /></th>
         <td><strong>Administración del personal</strong></td>
         <td class="text"><strong>Código: GTH-ADP-FO-011</strong></td>
       </tr>
@@ -50,7 +50,7 @@
       </tr>
       <tr>
         <td>Solicitud de permiso, Licencia o Compensatorio</td>
-        <td class="text">Actualización: (Preguntar si se cambia el campo)</td>
+        <td class="text">Actualización: 21-07-2023</td>
       </tr>
     </table>
     <table>

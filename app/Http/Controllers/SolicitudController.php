@@ -8,6 +8,9 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class SolicitudController extends Controller
 {
@@ -146,16 +149,17 @@ class SolicitudController extends Controller
         $firma_th = $datos_permiso ->firma_th;
         $remunerado = $datos_permiso->remunerado;
         $obs = $datos_permiso->observaciones;
+        $id_user = $datos_permiso->id_usuario;
         if($firma_j == null){
             $firma_j = 'descarga.png';
         }
         if($firma_th == null){
             $firma_th = 'descarga.png';
         }
-        $datos_persona= personas::where('id', $id_usuario)->first();
+        $datos_persona= personas::where('id', $id_user)->first();
         $nombre = $datos_persona->nombre;
         $cedula = $datos_persona->cedula;
-        $datos_cargo = empresa::where('id_usuario', $id_usuario)->first();
+        $datos_cargo = empresa::where('id_usuario', $id_user)->first();
         $empresas = [ //asiganción de empresa
             '1' => 'Cedicaf',
             '2' => 'Radiologos Asociados',
@@ -198,7 +202,8 @@ class SolicitudController extends Controller
         }else{
             $image_th = public_path('./image/rechazado.jpg');
         }
-        $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','fecha_inicio','fecha_fin','hora_inicio','hora_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));
+        $image_logo = public_path('./img/logo.jpg');
+        $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','fecha_inicio','fecha_fin','hora_inicio','hora_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado', 'image_logo'));
         return $pdf->download('Permiso.pdf');
     }
     public function prevista(Request $request)
@@ -246,7 +251,8 @@ class SolicitudController extends Controller
         $area = $areas[$cargo->area] ?? 'Área Desconocida';
         $especifi= $cargo->especificacion;
         $fecha_actual = date('d/m/Y');
-        $pdf = PDF::loadView('prevista', compact('fecha_actual','fecha_inicio','fecha_fin', 'hora_fin', 'hora_inicio', 'estado', 'pcl', 'justificacion', 'nombre','cedula', 'empresa', 'area', 'especifi', 'car'));
+        $image_logo = public_path('./img/logo.jpg');
+        $pdf = PDF::loadView('prevista', compact('fecha_actual','fecha_inicio','fecha_fin', 'hora_fin', 'hora_inicio', 'estado', 'pcl', 'justificacion', 'nombre','cedula', 'empresa', 'area', 'especifi', 'car', 'image_logo'));
         return $pdf->stream();
     }
     public function solicitud()
@@ -429,6 +435,8 @@ class SolicitudController extends Controller
         $firma_th = $permiso_update->firma_th;
         $remunerado = $permiso_update->remunerado;
         $obs = $permiso_update->observaciones;
+
+        $image_logo = public_path('./img/logo.jpg');
         if($firma_th == null){
             $firma_th = 'rechazado.jpg';
         }
@@ -476,7 +484,7 @@ class SolicitudController extends Controller
         $consultas = Empresa::where('id', $id)->first();
         $consulta = $consultas->cargo;
         if($accion === 'prevista'){
-            $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','hora_inicio','hora_fin','fecha_inicio','fecha_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado'));            
+            $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','hora_inicio','hora_fin','fecha_inicio','fecha_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado', 'image_logo'));            
             return $pdf->stream();
         }else if($accion ==='aprobar'){
             if (!empty($request->firma_jefe)) {
@@ -612,6 +620,60 @@ class SolicitudController extends Controller
     }
 
     public function exportar(Request $request){
-        return redirect('/Error');
+
+        $accion = $request->input('submit_action');
+        if($accion == 'botton1'){
+        
+        $permiso = "permiso";
+        $nombre = "ejemplo";
+        $fecha = "00/00/0000";
+        $descrip = "descipción del cargo";
+        $apro = "aprobado";
+        {
+            // Crea una nueva hoja de cálculo
+            $spreadsheet = new Spreadsheet();
+            // Agrega los encabezados de las columnas y estilos
+            $spreadsheet->getActiveSheet()->setCellValue('A1', 'Tipo de permiso');
+            $spreadsheet->getActiveSheet()->setCellValue('B1', 'Nombre');
+            $spreadsheet->getActiveSheet()->setCellValue('C1', 'Fecha de solicitud');
+            $spreadsheet->getActiveSheet()->setCellValue('D1', 'Despecificación de cargo');
+            $spreadsheet->getActiveSheet()->setCellValue('E1', 'Aprobado/Rechazado');
+            $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(30);
+            $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+            $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(35);
+            $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(50);
+            $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(40);
+
+    
+    
+            $spreadsheet->getActiveSheet()->getStyle('A1:E1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Centrar los encabezados
+            $spreadsheet->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true); // Negrita
+            $spreadsheet->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15); $i=2; // Tamaño personalizado
+            // Recorre los datos y los escribe en la hoja de cálculo
+            /* foreach ($datos as $dato) { */
+                for( $i = 2; $i<=3; $i++){
+                    $spreadsheet->getActiveSheet()->setCellValue('A' . $i, $permiso);
+                    $spreadsheet->getActiveSheet()->setCellValue('B' . $i, $nombre);
+                    $spreadsheet->getActiveSheet()->setCellValue('C' . $i, $fecha);
+                    $spreadsheet->getActiveSheet()->setCellValue('D' . $i, $descrip);
+                    $spreadsheet->getActiveSheet()->setCellValue('E' . $i, $apro);
+                };
+               /*  $i++; */
+            /* } */
+            // Guarda el archivo Excel en un directorio temporal
+            $writer = new Xlsx($spreadsheet);
+            $tempPath = tempnam(sys_get_temp_dir(), 'registro_');
+            $writer->save($tempPath);
+            // Envía el archivo Excel al navegador
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment;filename="Registro.Xlsx"');
+            header('Cache-Control: max-age=0');
+            readfile($tempPath);
+            // Elimina el archivo Excel temporal
+            unlink($tempPath);
+        };
+    }else{
+        dd("PDF");
+    }
     }
 }
