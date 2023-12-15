@@ -35,7 +35,7 @@
     <h2>Prevista del permiso, compensatorio o licencia:</h2>
     <table>
       <tr>
-        <th rowspan="3"><td><img src="{{ $image_logo }}"  class="img" /></td></th>
+        <th rowspan="3"><img src="{{ $image_logo }}"  class="img" /></th>
         <td><strong>Administración del personal</strong></td>
         <td class="text"><strong>Código: GTH-ADP-FO-011</strong></td>
       </tr>

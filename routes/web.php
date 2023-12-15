@@ -66,8 +66,8 @@ Route::controller(SolicitudController::class)->group(function(){
         Route::post('/Permisos/Prevista', 'prevista')->name('ruta_prevista')->middleware('auth');
         Route::get('/Permisos/Prevista', 'prevista')->name('ruta_prevista')->middleware('auth');
         //Ruta para descargar PDF de cualquier permiso
-        Route::post('/Registros/Descargar', 'descargar')->name('ruta_descargar')->middleware('auth');
-        Route::get('/Registros/Descargar', 'descargar')->name('ruta_descargar')->middleware('auth');
+        Route::post('/Registros/Descargar/{id}', 'descargar')->name('ruta_descargar')->middleware('auth');
+        Route::get('/Registros/Descargar/{id}', 'descargar')->name('ruta_descargar')->middleware('auth');
 
         //Ruta para regresar a la respectiva vista principal
         Route::post('/Volver', 'volver_principal')->name('ruta_volver')->middleware('auth');

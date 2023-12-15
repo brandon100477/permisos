@@ -20,61 +20,75 @@
         <div class="container">
             <h2>Aquí va los permisos firmados y registrados hasta la fecha</h2><br><br>
             <div class="buttons">
-            
-            
-            <form action="{{ route('ruta_exportar')}}" method="post">
-            @csrf
-            <input type="button"  value="Seleccionar todo" class="btn btn-warning btn-sm" id="seleccionarTodo">
-            <input type="hidden" name="seleccionados" id="seleccionados" value="">
-                <button type="submit" class="btn btn-warning btn-sm" id="boton_excel" value="botton1" name="submit_action">Descargar Excel</button><!-- Botón para exportar el excel -->
-                <button type="submit" class="btn btn-warning btn-sm" id="boton_pdf" value="botton2" name="submit_action">Descargar PDF'S</button><!-- Botón para exportar el excel -->
-            </form>
-            </div><br>
-            <div class="collapse show" id="collapseTable">
-                <div class="table-container">
-                    <table>
-                        <tr>
-                            <th>Seleccionar</th>
-                            <th>Tipo de permiso</th>
-                            <th>Nombre</th>
-                            <th>Fecha de solicitud</th>
-                            <th>Especificación de cargo</th>
-                            <th>Aprobado / Rechazado</th>
-                            <th>Revisar</th>
-                        </tr>
-                        @foreach ($usuarios as $usuario)
-                            @foreach ($permisos as $permiso)
-                                @if ($usuario->id == $permiso->id_usuario)
-                                    <tr>
-                                    <td><input type="checkbox" class="checkbox" name="seleccionados" value="{{ $permiso->id }}">
-                                </td>
-                                        <td>{{ $permiso->p_c_l }}</td>
-                                        <td>{{ $usuario->nombre }}</td>
-                                        <td>{{ $permiso->fecha_solicitud }}</td>
-                                        <td>
-                                        @foreach ($especificaciones as $especificacion)
-                                            @if ($especificacion->id_usuario == $usuario->id)
-                                                {{ $especificacion->especificacion }}
-                                            @endif
-                                        @endforeach
-                                        </td>
-                                        <td>
-                                        {{ $permiso->estado_solicitud }}
-                                        </td> 
-                                        <td>
-                                            <form action="{{ route('ruta_descargar') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="ide" id="ide" value="{{ $permiso->id }}">
-                                                <button type="submit"><i class="fa fa-cloud-download" aria-hidden="true"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
+                <form action="{{ route('ruta_exportar')}}" method="post">
+                    @csrf
+                    <input type="button"  value="Seleccionar todo" class="btn btn-warning btn-sm" id="seleccionarTodo">
+                    @foreach ($usuarios as $usuario)
+                        @foreach ($permisos as $permiso)
+                            @if ($usuario->id == $permiso->id_usuario)
+                                <input type="hidden" name="identi[]" id="identi" value="{{ $permiso->id }}">
+                                <input type="hidden" name="pcl[]" id="pcl" value="{{ $permiso->p_c_l }}">
+                                <input type="hidden" name="nombre[]" id="nombre" value="{{ $usuario->nombre }}">
+                                <input type="hidden" name="fecha[]" id="fecha" value="{{ $permiso->fecha_solicitud }}">
+                                <input type="hidden" name="estado[]" id="estado" value="{{ $permiso->estado_solicitud }}">
+                                <input type="hidden" name="remunerado[]" id="remunerado" value="{{ $permiso->remunerado }}">
+                                <input type="hidden" name="info[]" id="info" value="{{ $permiso->info_permiso }}">
+                                <input type="hidden" name="diaini[]" id="diaini" value="{{ $permiso->dia_inicio }}">
+                                <input type="hidden" name="diafin[]" id="diafin" value="{{ $permiso->dia_fin }}">
+                                @foreach ($especificaciones as $especificacion)
+                                    @if ($especificacion->id_usuario == $usuario->id)
+                                        <input type="hidden" name="especi[]" id="especi" value="{{ $especificacion->especificacion }}">
+                                    @endif
+                                @endforeach
+                            @endif
                         @endforeach
-                    </table>
-                </div>
-            </div>
+                    @endforeach
+                    <button type="submit" class="btn btn-warning btn-sm" id="boton_excel" value="botton1" name="submit_action">Descargar Excel</button><!-- Botón para exportar el excel -->
+                    <button type="submit" class="btn btn-warning btn-sm" id="boton_pdf" value="botton2" name="submit_action">Descargar PDF'S</button><!-- Botón para exportar el excel -->
+                    <div class="collapse show" id="collapseTable">
+                        <div class="table-container">
+                            <table>
+                                <tr>
+                                    <th>Seleccionar</th>
+                                    <th>Tipo de permiso</th>
+                                    <th>Nombre</th>
+                                    <th>Fecha de solicitud</th>
+                                    <th>Especificación de cargo</th>
+                                    <th>Aprobado / Rechazado</th>
+                                    <th>Revisar</th>
+                                </tr>
+                                @foreach ($usuarios as $usuario)
+                                    @foreach ($permisos as $permiso)
+                                        @if ($usuario->id == $permiso->id_usuario)
+                                            <tr>
+                                            <td>
+                                                <input type="checkbox" class="checkbox" name="seleccionados[]" value="{{ $permiso->id }}">
+                                            </td>
+                                                <td>{{ $permiso->p_c_l }}</td>
+                                                <td>{{ $usuario->nombre }}</td>
+                                                <td>{{ $permiso->fecha_solicitud }}</td>
+                                                <td>
+                                                    @foreach ($especificaciones as $especificacion)
+                                                        @if ($especificacion->id_usuario == $usuario->id)
+                                                            {{ $especificacion->especificacion }}
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                {{ $permiso->estado_solicitud }}
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('ruta_descargar', ['id' => $permiso->id]) }}" name="ide" id="ide{{ $permiso->id }}" ><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div><br>
         </div>
 <script>
 

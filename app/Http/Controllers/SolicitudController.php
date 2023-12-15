@@ -128,14 +128,16 @@ class SolicitudController extends Controller
         $datos = permisos::where('id_usuario', $id)->get();
         return view('registros', compact('datos'));//Redirecciona a la pagina donde se ve el registro de permisos por persona
     }
-    public function descargar(Request $request)
+    public function descargar(Request $request, $id)
     {
-        $id_permiso = $request ->ide;
-        if($id_permiso === null){ //Condicion para mostrar mensaje de error controlado
+ /*        $id_permiso = $request ->ide;
+dd($id); */
+
+        if($id === null){ //Condicion para mostrar mensaje de error controlado
             return redirect('/Error');
         }
         $id_usuario=auth()->user()->id;
-        $datos_permiso = permisos::where('id', $id_permiso)->first();
+        $datos_permiso = permisos::where('id', $id)->first();
         $pcl = $datos_permiso->p_c_l;
         $estado = $datos_permiso ->estado_solicitud;
         $fecha_solicitud = $datos_permiso ->fecha_solicitud;
@@ -435,7 +437,7 @@ class SolicitudController extends Controller
         $firma_th = $permiso_update->firma_th;
         $remunerado = $permiso_update->remunerado;
         $obs = $permiso_update->observaciones;
-
+        /* dd($obs); */
         $image_logo = public_path('./img/logo.jpg');
         if($firma_th == null){
             $firma_th = 'rechazado.jpg';
@@ -623,12 +625,46 @@ class SolicitudController extends Controller
 
         $accion = $request->input('submit_action');
         if($accion == 'botton1'){
-        
-        $permiso = "permiso";
-        $nombre = "ejemplo";
-        $fecha = "00/00/0000";
-        $descrip = "descipción del cargo";
-        $apro = "aprobado";
+        $boxes = $request->seleccionados;
+        if( empty($boxes)){
+            dd("Error. Check vacio");
+        } 
+        $permisos = permisos::whereIn('id', $boxes)->get();
+
+        foreach($permisos as $permiso){
+            $id_usuario[] = $permiso ->id_usuario;
+            $id_cargo []= $permiso ->id_cargo;
+            $pcl []= $permiso->p_c_l;
+            $fecha[]= $permiso->fecha_solicitud;
+            $estado[] = $permiso->estado_solicitud;
+            $remunerado[] = $permiso->remunerado;
+            $info[] = $permiso->info_permiso;
+            $diaini[] = $permiso->dia_inicio;
+            $diafin[] = $permiso->dia_fin;
+        }
+            $user =[];
+            foreach($id_usuario as $id){
+                $user = personas::where('id', $id)->get();
+                $users[] = $user;
+            }
+            foreach($users as $personas){
+                foreach($personas as $person){
+                    $client[] =$person->nombre;
+                }
+            }
+
+        $cargos =[];
+        foreach($id_cargo as $ids){
+            $cargos = empresa::where('id', $ids)->get();
+            $especificaciones[] = $cargos;
+        }
+        foreach($especificaciones as $especifi){
+            foreach($especifi as $especi){
+                $cargo []= $especi->especificacion; 
+            }
+        }
+        $cont = count($boxes);
+
         {
             // Crea una nueva hoja de cálculo
             $spreadsheet = new Spreadsheet();
@@ -636,30 +672,41 @@ class SolicitudController extends Controller
             $spreadsheet->getActiveSheet()->setCellValue('A1', 'Tipo de permiso');
             $spreadsheet->getActiveSheet()->setCellValue('B1', 'Nombre');
             $spreadsheet->getActiveSheet()->setCellValue('C1', 'Fecha de solicitud');
-            $spreadsheet->getActiveSheet()->setCellValue('D1', 'Despecificación de cargo');
-            $spreadsheet->getActiveSheet()->setCellValue('E1', 'Aprobado/Rechazado');
+            $spreadsheet->getActiveSheet()->setCellValue('D1', 'Aprobado / Rechazado');
+            $spreadsheet->getActiveSheet()->setCellValue('E1', 'Remunerado');
+            $spreadsheet->getActiveSheet()->setCellValue('F1', 'Solicitado por');
+            $spreadsheet->getActiveSheet()->setCellValue('G1', 'Dia de inicio');
+            $spreadsheet->getActiveSheet()->setCellValue('H1', 'Dìa fin');
+            $spreadsheet->getActiveSheet()->setCellValue('I1', 'Especificación de cargo');
+            
             $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(30);
             $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
             $spreadsheet->getActiveSheet()->getColumnDimension('C')->setWidth(35);
-            $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(50);
-            $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(40);
-
+            $spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(35);
+            $spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+            $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+            $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(28);
+            $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
+            $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(40);
     
     
-            $spreadsheet->getActiveSheet()->getStyle('A1:E1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Centrar los encabezados
-            $spreadsheet->getActiveSheet()->getStyle('A1:E1')->getFont()->setBold(true); // Negrita
-            $spreadsheet->getActiveSheet()->getStyle('A1:E1')->getFont()->setSize(15); $i=2; // Tamaño personalizado
+            $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Centrar los encabezados
+            $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold(true); // Negrita
+            $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getFont()->setSize(15); $i=2; $j=0;// Tamaño personalizado
             // Recorre los datos y los escribe en la hoja de cálculo
-            /* foreach ($datos as $dato) { */
-                for( $i = 2; $i<=3; $i++){
-                    $spreadsheet->getActiveSheet()->setCellValue('A' . $i, $permiso);
-                    $spreadsheet->getActiveSheet()->setCellValue('B' . $i, $nombre);
-                    $spreadsheet->getActiveSheet()->setCellValue('C' . $i, $fecha);
-                    $spreadsheet->getActiveSheet()->setCellValue('D' . $i, $descrip);
-                    $spreadsheet->getActiveSheet()->setCellValue('E' . $i, $apro);
+            
+                for( $i = 2; $i<=$cont; $i++){
+                    $spreadsheet->getActiveSheet()->setCellValue('A' . $i, $pcl[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('B' . $i, $client[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('C' . $i, $fecha[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('D' . $i, $estado[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('E' . $i, $remunerado[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('F' . $i, $info[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('G' . $i, $diaini[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('H' . $i, $diafin[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('I' . $i, $cargo[$j]);
+                    $j++;
                 };
-               /*  $i++; */
-            /* } */
             // Guarda el archivo Excel en un directorio temporal
             $writer = new Xlsx($spreadsheet);
             $tempPath = tempnam(sys_get_temp_dir(), 'registro_');
@@ -676,4 +723,5 @@ class SolicitudController extends Controller
         dd("PDF");
     }
     }
+
 }

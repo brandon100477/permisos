@@ -37,10 +37,10 @@
                     <input type="text" id="permiso" name="permiso" value="{{ $actualizar->info_permiso}}" readonly>
                     <h5 name="nombreApellido" id="nombreApellido"class="textos" >Firmado por el empleado: </h5>
                     <img src="{{ asset('image_e/' . $actualizar->firma_empleado) }}" class="img" />
-                    <h5 name="titulo" id="titulo"class="textos" > Remunerado</h5>
-                    <input type="text" id="permiso" name="permiso" value="{{ $actualizar->remunerado}}" readonly>
+                    <h5 name="titulo" id="titulo" class="textos" > Remunerado</h5>
+                    <input type="text" id="adicional" name="adicional" value="{{ $actualizar->remunerado}}" readonly>
                     <h5 name="titulo" id="titulo"class="textos" > Observaciones</h5>
-                    <input type="text" id="permiso" name="permiso" value="{{ $actualizar->observaciones}}" readonly>
+                    <input type="text" id="observaciones" name="observaciones" value="{{ $actualizar->observaciones}}" readonly>
                     <h5 name="nombreApellido" id="nombreApellido"class="textos" >Firma de jefe inmediato.</h5>
                     <img src="{{ asset('image_j/' . $actualizar->firma_jefe) }}" class="img" />
                     <h5 name="nombreApellido" id="nombreApellido"class="textos" >Firma de Talento Humano.</h5>
