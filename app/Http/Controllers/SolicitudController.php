@@ -628,9 +628,9 @@ dd($id); */
         $boxes = $request->seleccionados;
         if( empty($boxes)){
             dd("Error. Check vacio");
-        } 
+        }
+        
         $permisos = permisos::whereIn('id', $boxes)->get();
-
         foreach($permisos as $permiso){
             $id_usuario[] = $permiso ->id_usuario;
             $id_cargo []= $permiso ->id_cargo;
@@ -663,7 +663,7 @@ dd($id); */
                 $cargo []= $especi->especificacion; 
             }
         }
-        $cont = count($boxes);
+        $cont = count($boxes) + 1;
 
         {
             // Crea una nueva hoja de cálculo
