@@ -89,3 +89,31 @@ button {
     border: none;
     cursor: pointer;
 }
+
+.botton{
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    width: 25%;
+    border-radius: 20px;
+}
+
+#seleccionarTodo{
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+#boton_excel{
+    background-color: #58e45d;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+#boton_pdf{
+    background-color: #f09090;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
