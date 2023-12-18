@@ -34,7 +34,7 @@
                                     <td>{{ $dato -> fecha_solicitud }}</td>
                                     <td>{{ $dato -> estado_solicitud }}</td>
                                     <td>
-                                        <form action="{{ route('ruta_descargar')}}" method="post">
+                                        <form action="{{ route('ruta_descargar', ['id' => $dato->id])}}" method="post">
                                             @csrf
                                             <input type="hidden" name="ide" id="ide" value="{{ $dato -> id}}">
                                             <button type="submit"><i class="fa fa-download" aria-hidden="true"></i></button>

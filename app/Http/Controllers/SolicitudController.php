@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\{permisos, personas, empresa};
+use Dompdf\Dompdf;
 use Illuminate\Support\Facades\{Auth, hash};
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -130,8 +131,6 @@ class SolicitudController extends Controller
     }
     public function descargar(Request $request, $id)
     {
- /*        $id_permiso = $request ->ide;
-dd($id); */
 
         if($id === null){ //Condicion para mostrar mensaje de error controlado
             return redirect('/Error');
@@ -624,7 +623,6 @@ dd($id); */
     public function exportar(Request $request){
 
         $accion = $request->input('submit_action');
-        if($accion == 'botton1'){
         $boxes = $request->seleccionados;
         if( empty($boxes)){
             dd("Error. Check vacio");
@@ -664,7 +662,7 @@ dd($id); */
             }
         }
         $cont = count($boxes) + 1;
-
+        if($accion == 'botton1'){
         {
             // Crea una nueva hoja de cálculo
             $spreadsheet = new Spreadsheet();
@@ -720,8 +718,113 @@ dd($id); */
             unlink($tempPath);
         };
     }else{
-        dd("PDF");
+
+        return $this->pdfs($boxes);
+    }
+    }
+    public function pdfs($boxes){
+        
+        $datos = permisos::whereIn('id', $boxes)->get();
+        $pdf = new Dompdf();
+        foreach($datos as $datos_permiso){
+            $pcl [] = $datos_permiso->p_c_l;
+        $estado[] = $datos_permiso ->estado_solicitud;
+        $fecha_solicitud[] = $datos_permiso ->fecha_solicitud;
+        $hora_inicio[] = $datos_permiso ->hora_inicio;
+        $hora_fin []= $datos_permiso ->hora_fin;
+        $fecha_inicio[] = $datos_permiso ->dia_inicio;
+        $fecha_fin []= $datos_permiso ->dia_fin;
+        $justificacion[] = $datos_permiso ->info_permiso;
+        $firma_empleo[] = $datos_permiso->firma_empleado;
+        $firma_j[] = $datos_permiso ->firma_jefe;
+        $firma_th []= $datos_permiso ->firma_th;
+        $remunerado[] = $datos_permiso->remunerado;
+        $obs[] = $datos_permiso->observaciones;
+        $id_user[] = $datos_permiso->id_usuario;
+        $id_cargo[] = $datos_permiso ->id_cargo;
+        if($firma_j == null){
+            $firma_j = 'descarga.png';
+        }
+        if($firma_th == null){
+            $firma_th = 'descarga.png';
+        }
+    };
+    $cont = count($boxes) + 1;
+        $user =[];
+            foreach($id_user as $id){
+                $user = personas::where('id', $id)->get();
+                $users[] = $user;
+            }
+            foreach($users as $personas){
+                foreach($personas as $person){
+                    $nombre[] =$person->nombre;
+                    $cedula[] = $person->cedula;
+                }
+            }
+            $empresas = [ //asiganción de empresa
+                '1' => 'Cedicaf',
+                '2' => 'Radiologos Asociados',
+                '3' => 'Diaxme Salud',
+            ];
+            $areas = [//Asignación de areas
+                '1' => 'Asistencial',
+                '2' => 'TI (sistemas)',
+                '3' => 'Talento Humano',
+                '4' => 'Contabilidad',
+                '5' => 'Cartera',
+                '6' => 'Administrativa',
+                '7' => 'Facturación',
+                '8' => 'Comercial',
+                '9' => 'Planeación',
+                '10' => 'Servicio al cliente',
+                '11' => 'Sistema Integrado de gestión (Calidad)',
+                '12' => 'Gerencia médica',
+            ];
+
+            $cargos = [
+                '1' => 'Empresario',
+                '2' => 'Líder',
+                '3' => 'Director',
+                '4' => 'Gerente',
+                '5' => 'Vicepresidente',
+            ];
+            
+            $data =[];
+            foreach($id_cargo as $ids){
+                $data = empresa::where('id', $ids)->get();
+                $especificaciones[] = $data;
+            }
+            foreach($especificaciones as $especifis){
+                foreach($especifis as $especi){
+                    $cargos[] =$especi->cargo;
+                    $especifi [] = $especi->especificacion;
+                    $empresa[] = $empresas[$especi->empresa] ?? 'Empresa Desconocida';
+                    $area []= $areas[$especi->area] ?? 'Área Desconocida';
+                    $car [] = $cargos[$especi->cargo] ?? 'Área Desconocida';
+                }
+            }
+            foreach($firma_empleo as $firma_e){
+                $image_e []= public_path('./image_e/'. $firma_e);
+            }
+
+        
+        foreach($firma_j as $firma_jefe){
+                $image_j []= public_path('./image_j/'. $firma_jefe);
+        }
+        foreach($firma_th as $firma_talento){
+                $image_th []= public_path('./image_th/'. $firma_talento);
+        }
+        
+        $image_logo = public_path('./img/logo.jpg');
+for($i = 0; $i<=$cont;$i++){
+    $html = view('descargarpack', compact('obs[$i]', 'remunerado[$i]', 'image_th[$i]', 'image_j[$i]', 'image_e[$i]', 'firma_th[$i]', 'firma_j[$i]', 'firma_e[$i]', 'justificacion[$i]', 'cedula[$i]', 'fecha_inicio[$i]', 'fecha_fin[$i]', 'hora_inicio[$i]', 'hora_fin[$i]', 'pcl[$i]', 'fecha_solicitud[$i]', 'nombre[$i]', 'empresa[$i]', 'car[$i]', 'especifi[$i]', 'estado[$i]', 'image_logo[$i]'))->render();
+    $pdf->loadHTML($html);
+}
+
+        $pdf->stream('Pack_Permisos.pdf');
     }
     }
 
-}
+     /*  $pdf = PDF::loadView('descargarpack', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','fecha_inicio','fecha_fin','hora_inicio','hora_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado', 'image_logo'));
+        return $pdf->download('Pack_Permisos_'.$datos_permiso->id.'pdf'); */
+        

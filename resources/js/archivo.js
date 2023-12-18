@@ -13,7 +13,15 @@ $(document).ready(function() {
     });
  });
  
- document.getElementById('boton_excel' && 'boton_pdf').addEventListener('click', function(e) {
+ document.getElementById('boton_excel').addEventListener('click', function(e) {
+  var checkboxes = document.querySelectorAll('.checkbox');
+  var checked = Array.prototype.slice.call(checkboxes).some(x => x.checked);
+  if (!checked) {
+      e.preventDefault();
+      Swal.fire('Lo sentimos', 'Debes seleccionar al menos un dato', 'error');
+  }
+});
+document.getElementById('boton_pdf').addEventListener('click', function(e) {
   var checkboxes = document.querySelectorAll('.checkbox');
   var checked = Array.prototype.slice.call(checkboxes).some(x => x.checked);
   if (!checked) {
