@@ -37,11 +37,14 @@
     }
     
   </style>
+  @foreach ($alls as $all)
+    
+  
   <body>
     <h2>Permiso, compensatorio o licencia:</h2>
     <table>
       <tr>
-        <th rowspan="3"><img src="{{ $image_logo }}"  class="img" /></th>
+        <th rowspan="3"><img src="{{ $all['image_logo'] }}"  class="img" /></th>
         <td><strong>Administración del personal</strong></td>
         <td class="text"><strong>Código: GTH-ADP-FO-011</strong></td>
       </tr>
@@ -57,46 +60,46 @@
     <table>
       <tr>
         <th class="text tam"><strong>Nombre del colaborador:</strong></th>
-        <td  class="text ancho">{{ $nombre[$i] }}</td>
+        <td  class="text ancho">{{ $all['nombre'] }}</td>
         <th><strong>Empresa/Agencia</strong></th>
-        <td  class="text ancho">{{ $empresa[$i]  }}</td>
+        <td  class="text ancho">{{ $all['empresa']  }}</td>
       </tr>
     </table>
     <table>
       <tr>
-        <td rowspan="2"><strong>Cargo:</strong> {{ $car[$i]  }}, {{ $especifi[$i] }}</td>
-        <td  class="text"><strong>Estado del proceso:</strong> {{ $estado[$i]  }}</td>
+        <td rowspan="2"><strong>Cargo:</strong> {{ $all['car']  }}, {{ $all['especifi'] }}</td>
+        <td  class="text"><strong>Estado del proceso:</strong> {{ $all['estado']  }}</td>
       </tr>
       <tr>
-        <td  class="text"><strong>Fecha de la solicitud:</strong> {{ $fecha_solicitud[$i] }}</td>
+        <td  class="text"><strong>Fecha de la solicitud:</strong> {{ $all['fecha_solicitud'] }}</td>
       </tr>
     </table>
     <table>
       <tr>
         <th><strong>Tipo de permiso:</strong></th>
-        <td class="text ancho"> {{ $pcl[$i]  }}</td>
+        <td class="text ancho"> {{ $all['pcl']  }}</td>
       </tr>
     </table>
     <table>
       <tr>
-        <td rowspan="2"><strong>Motivo del permiso, compensatorio o licencia:</strong>  {{ $justificacion[$i]  }}</td>
-        <td class="text"><strong>Desde:</strong> {{ $hora_inicio[$i]  }} <br><br><strong>Hasta:</strong> {{ $hora_fin[$i] }}</td>
+        <td rowspan="2"><strong>Motivo del permiso, compensatorio o licencia:</strong>  {{ $all['justificacion']  }}</td>
+        <td class="text"><strong>Desde:</strong> {{ $all['hora_inicio']  }} <br><br><strong>Hasta:</strong> {{ $all['hora_fin'] }}</td>
       </tr>
       <tr>
-        <td class="text"><strong>Fecha inicial:</strong> {{ $fecha_inicio[$i] }} <br> <br><strong>Fecha final:</strong> {{ $fecha_fin[$i]}}</td>
+        <td class="text"><strong>Fecha inicial:</strong> {{ $all['fecha_inicio'] }} <br> <br><strong>Fecha final:</strong> {{ $all['fecha_fin']}}</td>
       </tr>
     </table>
     <table>
       <th><strong>Remunerado: </strong></th>
-      <td class="text">{{ $remunerado[$i]  }}</td>
+      <td class="text">{{ $all['remunerado']  }}</td>
     </table>
     <table>
       <tr>
         <th rowspan="2"><strong>Firma y cedula del colaborador: </strong></th>
-        <td><img src="{{ $image_e[$i]  }}" class="img"/></td>
+        <td><img src="{{ $all['image_e']  }}" class="img"/></td>
       </tr>
       <tr>
-        <td class="text"><strong>C.C.</strong> {{ $cedula[$i] }} </td>
+        <td class="text"><strong>C.C.</strong> {{ $all['cedula'] }} </td>
       </tr>
     </table>
     <table>
@@ -109,20 +112,20 @@
         <th class="text"><strong>Observaciones:</strong></th>
       </tr>
       <tr>
-        <td class="ancho2 text">{{ $obs[$i]  }}</td>
+        <td class="ancho2 text">{{ $all['obs']  }}</td>
       </tr>
     </table>
     <table>
       <tr>
-        <th ><img src="{{ $image_j[$i]  }}" class="img"/></th>
-        <th ><img src="{{ $image_th[$i] }}" class="img"/></th>
+        <th ><img src="{{ $all['image_j']  }}" class="img"/></th>
+        <th ><img src="{{ $all['image_th'] }}" class="img"/></th>
       </tr>
       <tr>
         <th >Firma del líder inmediato</th>
         <th>Firma de Líder Talento Humano</th>
       </tr>
-      <div class="page-break"></div>
     </table>
 
   </body>
+  @endforeach
 </html>

@@ -171,6 +171,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Elibyy\TCPDF\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -189,6 +190,7 @@ return [
         'Permission' => Spatie\Permission\PermissionFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'PDFS' => Elibyy\TCPDF\Facades\TCPDF::class
     ])->toArray(),
 
 ];

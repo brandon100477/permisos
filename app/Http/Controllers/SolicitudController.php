@@ -718,12 +718,10 @@ class SolicitudController extends Controller
             unlink($tempPath);
         };
     }else{
-
         return $this->pdfs($boxes);
     }
     }
     public function pdfs($boxes){
-        
         $datos = permisos::whereIn('id', $boxes)->get();
         $pdf = new Dompdf();
         foreach($datos as $datos_permiso){
@@ -749,7 +747,7 @@ class SolicitudController extends Controller
             $firma_th = 'descarga.png';
         }
     };
-    $cont = count($boxes) + 1;
+    $cont = count($boxes);
         $user =[];
             foreach($id_user as $id){
                 $user = personas::where('id', $id)->get();
@@ -780,7 +778,6 @@ class SolicitudController extends Controller
                 '11' => 'Sistema Integrado de gestión (Calidad)',
                 '12' => 'Gerencia médica',
             ];
-
             $cargos = [
                 '1' => 'Empresario',
                 '2' => 'Líder',
@@ -788,7 +785,6 @@ class SolicitudController extends Controller
                 '4' => 'Gerente',
                 '5' => 'Vicepresidente',
             ];
-            
             $data =[];
             foreach($id_cargo as $ids){
                 $data = empresa::where('id', $ids)->get();
@@ -804,27 +800,40 @@ class SolicitudController extends Controller
                 }
             }
             foreach($firma_empleo as $firma_e){
-                $image_e []= public_path('./image_e/'. $firma_e);
+                $image_e[] =  public_path('./image_e/'. $firma_e);
             }
-
-        
         foreach($firma_j as $firma_jefe){
                 $image_j []= public_path('./image_j/'. $firma_jefe);
         }
         foreach($firma_th as $firma_talento){
                 $image_th []= public_path('./image_th/'. $firma_talento);
         }
-        
         $image_logo = public_path('./img/logo.jpg');
-for($i = 0; $i<=$cont;$i++){
-    $html = view('descargarpack', compact('obs[$i]', 'remunerado[$i]', 'image_th[$i]', 'image_j[$i]', 'image_e[$i]', 'firma_th[$i]', 'firma_j[$i]', 'firma_e[$i]', 'justificacion[$i]', 'cedula[$i]', 'fecha_inicio[$i]', 'fecha_fin[$i]', 'hora_inicio[$i]', 'hora_fin[$i]', 'pcl[$i]', 'fecha_solicitud[$i]', 'nombre[$i]', 'empresa[$i]', 'car[$i]', 'especifi[$i]', 'estado[$i]', 'image_logo[$i]'))->render();
-    $pdf->loadHTML($html);
+        $data =[];/* Mapeo de los datos optenidos para tener un array de arrays */
+        for($i = 0; $i<$cont;$i++){
+            $data[] = [
+                'obs' => $obs[$i] ?? '',
+                'remunerado' => $remunerado[$i] ?? '',
+                'image_th' => $image_th[$i] ?? '',
+                'image_j' => $image_j[$i] ?? '',
+                'image_e' => $image_e[$i] ?? '',
+                'justificacion' => $justificacion[$i] ?? '',
+                'cedula' => $cedula[$i] ?? '',
+                'fecha_inicio' => $fecha_inicio[$i] ?? '',
+                'fecha_fin' => $fecha_fin[$i] ?? '',
+                'hora_inicio' => $hora_inicio[$i] ?? '',
+                'hora_fin' => $hora_fin[$i] ?? '',
+                'pcl' => $pcl[$i] ?? '',
+                'fecha_solicitud' => $fecha_solicitud[$i] ?? '',
+                'nombre' => $nombre[$i] ?? '',
+                'empresa' => $empresa[$i] ?? '',
+                'car' => $car[$i] ?? '',
+                'especifi' => $especifi[$i] ?? '',
+                'estado' => $estado[$i] ?? '',
+                'image_logo' => $image_logo ?? ''
+            ];
+        }
+        $pdf = PDF:: loadView('descargarpack',['alls' =>$data]);
+        return $pdf->download('pack_permisos.pdf');
+    }
 }
-
-        $pdf->stream('Pack_Permisos.pdf');
-    }
-    }
-
-     /*  $pdf = PDF::loadView('descargarpack', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','fecha_inicio','fecha_fin','hora_inicio','hora_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado', 'image_logo'));
-        return $pdf->download('Pack_Permisos_'.$datos_permiso->id.'pdf'); */
-        

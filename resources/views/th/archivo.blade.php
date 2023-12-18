@@ -45,7 +45,7 @@
                         @endforeach
                     @endforeach
                     <button type="submit" class="btn btn-warning btn-sm botton" id="boton_excel" value="botton1" name="submit_action">Descargar Excel</button><!-- Botón para exportar el excel -->
-                    <!-- <button type="submit" class="btn btn-warning btn-sm botton" id="boton_pdf" value="botton2" name="submit_action">Descargar PDF'S</button> --><!-- Botón para exportar el excel -->
+                    <button type="submit" class="btn btn-warning btn-sm botton" id="boton_pdf" value="botton2" name="submit_action">Descargar PDF'S</button><!-- Botón para exportar el excel -->
                     <div class="collapse show" id="collapseTable">
                         <div class="table-container">
                             <table>
