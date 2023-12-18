@@ -627,7 +627,20 @@ class SolicitudController extends Controller
         if( empty($boxes)){
             dd("Error. Check vacio");
         }
-        
+        $areas = [//Asignación de areas
+            '1' => 'Asistencial',
+            '2' => 'TI (sistemas)',
+            '3' => 'Talento Humano',
+            '4' => 'Contabilidad',
+            '5' => 'Cartera',
+            '6' => 'Administrativa',
+            '7' => 'Facturación',
+            '8' => 'Comercial',
+            '9' => 'Planeación',
+            '10' => 'Servicio al cliente',
+            '11' => 'Sistema Integrado de gestión (Calidad)',
+            '12' => 'Gerencia médica',
+        ];
         $permisos = permisos::whereIn('id', $boxes)->get();
         foreach($permisos as $permiso){
             $id_usuario[] = $permiso ->id_usuario;
@@ -640,17 +653,16 @@ class SolicitudController extends Controller
             $diaini[] = $permiso->dia_inicio;
             $diafin[] = $permiso->dia_fin;
         }
-            $user =[];
-            foreach($id_usuario as $id){
-                $user = personas::where('id', $id)->get();
-                $users[] = $user;
+        $user =[];
+        foreach($id_usuario as $id){
+            $user = personas::where('id', $id)->get();
+            $users[] = $user;
+        }
+        foreach($users as $personas){
+            foreach($personas as $person){
+                $client[] =$person->nombre;
             }
-            foreach($users as $personas){
-                foreach($personas as $person){
-                    $client[] =$person->nombre;
-                }
-            }
-
+        }
         $cargos =[];
         foreach($id_cargo as $ids){
             $cargos = empresa::where('id', $ids)->get();
@@ -659,6 +671,7 @@ class SolicitudController extends Controller
         foreach($especificaciones as $especifi){
             foreach($especifi as $especi){
                 $cargo []= $especi->especificacion; 
+                $area [] = $areas[$especi->area] ?? 'Área Desconocida';
             }
         }
         $cont = count($boxes) + 1;
@@ -675,7 +688,8 @@ class SolicitudController extends Controller
             $spreadsheet->getActiveSheet()->setCellValue('F1', 'Solicitado por');
             $spreadsheet->getActiveSheet()->setCellValue('G1', 'Dia de inicio');
             $spreadsheet->getActiveSheet()->setCellValue('H1', 'Dìa fin');
-            $spreadsheet->getActiveSheet()->setCellValue('I1', 'Especificación de cargo');
+            $spreadsheet->getActiveSheet()->setCellValue('I1', 'Area');
+            $spreadsheet->getActiveSheet()->setCellValue('J1', 'Especificación de cargo');
             
             $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(30);
             $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(20);
@@ -685,12 +699,12 @@ class SolicitudController extends Controller
             $spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(30);
             $spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(28);
             $spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-            $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(40);
-    
-    
-            $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Centrar los encabezados
-            $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getFont()->setBold(true); // Negrita
-            $spreadsheet->getActiveSheet()->getStyle('A1:I1')->getFont()->setSize(15); $i=2; $j=0;// Tamaño personalizado
+            $spreadsheet->getActiveSheet()->getColumnDimension('I')->setWidth(20);
+            $spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(40);
+
+            $spreadsheet->getActiveSheet()->getStyle('A1:J1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Centrar los encabezados
+            $spreadsheet->getActiveSheet()->getStyle('A1:J1')->getFont()->setBold(true); // Negrita
+            $spreadsheet->getActiveSheet()->getStyle('A1:J1')->getFont()->setSize(15); $i=2; $j=0;// Tamaño personalizado
             // Recorre los datos y los escribe en la hoja de cálculo
             
                 for( $i = 2; $i<=$cont; $i++){
@@ -702,7 +716,8 @@ class SolicitudController extends Controller
                     $spreadsheet->getActiveSheet()->setCellValue('F' . $i, $info[$j]);
                     $spreadsheet->getActiveSheet()->setCellValue('G' . $i, $diaini[$j]);
                     $spreadsheet->getActiveSheet()->setCellValue('H' . $i, $diafin[$j]);
-                    $spreadsheet->getActiveSheet()->setCellValue('I' . $i, $cargo[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('I' . $i, $area[$j]);
+                    $spreadsheet->getActiveSheet()->setCellValue('J' . $i, $cargo[$j]);
                     $j++;
                 };
             // Guarda el archivo Excel en un directorio temporal
@@ -726,87 +741,86 @@ class SolicitudController extends Controller
         $pdf = new Dompdf();
         foreach($datos as $datos_permiso){
             $pcl [] = $datos_permiso->p_c_l;
-        $estado[] = $datos_permiso ->estado_solicitud;
-        $fecha_solicitud[] = $datos_permiso ->fecha_solicitud;
-        $hora_inicio[] = $datos_permiso ->hora_inicio;
-        $hora_fin []= $datos_permiso ->hora_fin;
-        $fecha_inicio[] = $datos_permiso ->dia_inicio;
-        $fecha_fin []= $datos_permiso ->dia_fin;
-        $justificacion[] = $datos_permiso ->info_permiso;
-        $firma_empleo[] = $datos_permiso->firma_empleado;
-        $firma_j[] = $datos_permiso ->firma_jefe;
-        $firma_th []= $datos_permiso ->firma_th;
-        $remunerado[] = $datos_permiso->remunerado;
-        $obs[] = $datos_permiso->observaciones;
-        $id_user[] = $datos_permiso->id_usuario;
-        $id_cargo[] = $datos_permiso ->id_cargo;
-        if($firma_j == null){
-            $firma_j = 'descarga.png';
-        }
-        if($firma_th == null){
-            $firma_th = 'descarga.png';
-        }
-    };
-    $cont = count($boxes);
+            $estado[] = $datos_permiso ->estado_solicitud;
+            $fecha_solicitud[] = $datos_permiso ->fecha_solicitud;
+            $hora_inicio[] = $datos_permiso ->hora_inicio;
+            $hora_fin []= $datos_permiso ->hora_fin;
+            $fecha_inicio[] = $datos_permiso ->dia_inicio;
+            $fecha_fin []= $datos_permiso ->dia_fin;
+            $justificacion[] = $datos_permiso ->info_permiso;
+            $firma_empleo[] = $datos_permiso->firma_empleado;
+            $firma_j[] = $datos_permiso ->firma_jefe;
+            $firma_th []= $datos_permiso ->firma_th;
+            $remunerado[] = $datos_permiso->remunerado;
+            $obs[] = $datos_permiso->observaciones;
+            $id_user[] = $datos_permiso->id_usuario;
+            $id_cargo[] = $datos_permiso ->id_cargo;
+            if($firma_j == null){
+                $firma_j = 'descarga.png';
+            }
+            if($firma_th == null){
+                $firma_th = 'descarga.png';
+            }
+        };
+        $cont = count($boxes);
         $user =[];
-            foreach($id_user as $id){
-                $user = personas::where('id', $id)->get();
-                $users[] = $user;
+        foreach($id_user as $id){
+            $user = personas::where('id', $id)->get();
+            $users[] = $user;
+        }
+        foreach($users as $personas){
+            foreach($personas as $person){
+                $nombre[] =$person->nombre;
+                $cedula[] = $person->cedula;
             }
-            foreach($users as $personas){
-                foreach($personas as $person){
-                    $nombre[] =$person->nombre;
-                    $cedula[] = $person->cedula;
-                }
+        }
+        $empresas = [ //asiganción de empresa
+            '1' => 'Cedicaf',
+            '2' => 'Radiologos Asociados',
+            '3' => 'Diaxme Salud',
+        ];
+        $areas = [//Asignación de areas
+            '1' => 'Asistencial',
+            '2' => 'TI (sistemas)',
+            '3' => 'Talento Humano',
+            '4' => 'Contabilidad',
+            '5' => 'Cartera',
+            '6' => 'Administrativa',
+            '7' => 'Facturación',
+            '8' => 'Comercial',
+            '9' => 'Planeación',
+            '10' => 'Servicio al cliente',
+            '11' => 'Sistema Integrado de gestión (Calidad)',
+            '12' => 'Gerencia médica',
+        ];
+        $cargos = [//Asignación de cargos
+            '1' => 'Empresario',
+            '2' => 'Líder',
+            '3' => 'Director',
+            '4' => 'Gerente',
+            '5' => 'Vicepresidente',
+        ];
+        $data =[];
+        foreach($id_cargo as $ids){
+            $data = empresa::where('id', $ids)->get();
+            $especificaciones[] = $data;
+        }
+        foreach($especificaciones as $especifis){
+            foreach($especifis as $especi){
+                $cargos[] =$especi->cargo;
+                $especifi [] = $especi->especificacion;
+                $empresa[] = $empresas[$especi->empresa] ?? 'Empresa Desconocida';
+                $car [] = $cargos[$especi->cargo] ?? 'Área Desconocida';
             }
-            $empresas = [ //asiganción de empresa
-                '1' => 'Cedicaf',
-                '2' => 'Radiologos Asociados',
-                '3' => 'Diaxme Salud',
-            ];
-            $areas = [//Asignación de areas
-                '1' => 'Asistencial',
-                '2' => 'TI (sistemas)',
-                '3' => 'Talento Humano',
-                '4' => 'Contabilidad',
-                '5' => 'Cartera',
-                '6' => 'Administrativa',
-                '7' => 'Facturación',
-                '8' => 'Comercial',
-                '9' => 'Planeación',
-                '10' => 'Servicio al cliente',
-                '11' => 'Sistema Integrado de gestión (Calidad)',
-                '12' => 'Gerencia médica',
-            ];
-            $cargos = [
-                '1' => 'Empresario',
-                '2' => 'Líder',
-                '3' => 'Director',
-                '4' => 'Gerente',
-                '5' => 'Vicepresidente',
-            ];
-            $data =[];
-            foreach($id_cargo as $ids){
-                $data = empresa::where('id', $ids)->get();
-                $especificaciones[] = $data;
-            }
-            foreach($especificaciones as $especifis){
-                foreach($especifis as $especi){
-                    $cargos[] =$especi->cargo;
-                    $especifi [] = $especi->especificacion;
-                    $empresa[] = $empresas[$especi->empresa] ?? 'Empresa Desconocida';
-                    $area []= $areas[$especi->area] ?? 'Área Desconocida';
-                    $car [] = $cargos[$especi->cargo] ?? 'Área Desconocida';
-                }
-            }
-            foreach($firma_empleo as $firma_e){
-                $image_e[] =  public_path('./image_e/'. $firma_e);
-            }
+        }
+        foreach($firma_empleo as $firma_e){
+            $image_e[] =  public_path('./image_e/'. $firma_e);
+        }
         foreach($firma_j as $firma_jefe){
-                $image_j []= public_path('./image_j/'. $firma_jefe);
+            $image_j []= public_path('./image_j/'. $firma_jefe);
         }
         foreach($firma_th as $firma_talento){
-                $image_th []= public_path('./image_th/'. $firma_talento);
+            $image_th []= public_path('./image_th/'. $firma_talento);
         }
         $image_logo = public_path('./img/logo.jpg');
         $data =[];/* Mapeo de los datos optenidos para tener un array de arrays */
