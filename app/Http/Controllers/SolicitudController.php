@@ -336,6 +336,10 @@ class SolicitudController extends Controller
             } else {
                 $file_th = null;
             }
+            $persons = personas::where('id', $request->usuario_id)->get();//Función para tomar el nombre del solicitante del permiso.
+            foreach($persons as $person){
+                $per = $person->nombre;
+            }
             $fecha_actual = date('d/m/Y');
             $registro = new permisos();
             $registro -> id_usuario = $request -> usuario_id;
@@ -353,6 +357,7 @@ class SolicitudController extends Controller
             $registro -> observaciones = $request-> observaciones;
             $registro -> estado_solicitud = $estado;
             $registro -> p_c_l = $request->pcl;
+            /* registro ->nuevo campo = $per */
             $registro->save();
             $cargos = Empresa::where('id', $request->cargo_id)->first();
             $cargo= $cargos->cargo;
@@ -436,7 +441,6 @@ class SolicitudController extends Controller
         $firma_th = $permiso_update->firma_th;
         $remunerado = $permiso_update->remunerado;
         $obs = $permiso_update->observaciones;
-        /* dd($obs); */
         $image_logo = public_path('./img/logo.jpg');
         if($firma_th == null){
             $firma_th = 'rechazado.jpg';
@@ -598,6 +602,7 @@ class SolicitudController extends Controller
             $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
             $usuarios = personas::WhereIn('id',$empleado)->get();
             $permisos = permisos::whereNotNull('firma_th')->get();
+            /* $delete = permisos::where('id_usuario', null)->get(); */
             return view('th.archivo', compact('permisos', 'usuarios', 'especificaciones'));
         }else if($car === '1' || $car === '2'|| $car === '3'|| $car === '4' || $car === '5'){ //Condicion para mostrar mensaje de error controlado
             return redirect('/Error');
@@ -643,6 +648,9 @@ class SolicitudController extends Controller
         ];
         $permisos = permisos::whereIn('id', $boxes)->get();
         foreach($permisos as $permiso){
+            if($permiso->id_usuario == null){/* CAMBIO PARA SABER SI USUARIO EXISTE */
+                $client [] = "PEDRO"; /* Aquí tendría que venir el campo nuevo y seguarda el nombre en client */
+            }
             $id_usuario[] = $permiso ->id_usuario;
             $id_cargo []= $permiso ->id_cargo;
             $pcl []= $permiso->p_c_l;
@@ -663,6 +671,7 @@ class SolicitudController extends Controller
                 $client[] =$person->nombre;
             }
         }
+        /* dd($client); */
         $cargos =[];
         foreach($id_cargo as $ids){
             $cargos = empresa::where('id', $ids)->get();

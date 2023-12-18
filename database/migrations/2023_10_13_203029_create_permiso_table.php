@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('estado_solicitud', 200)->nullable();
             $table->string('p_c_l', 200)->nullable();
             $table->timestamps();
+            $table->string('collector');
         });
     }
     
