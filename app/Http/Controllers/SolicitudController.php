@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\{permisos, personas, empresa};
 use Dompdf\Dompdf;
-use Illuminate\Support\Facades\{Auth, hash};
+use Illuminate\Support\Facades\{Auth, DB, hash};
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+
 
 class SolicitudController extends Controller
 {
@@ -591,6 +593,11 @@ class SolicitudController extends Controller
     public function archivo(Request $request)
     //Desde la solicitud de permisos, volver a la vista según corresponda
     {
+        $filtro_inicio = $request->input('fecha_inicio');
+        $filtro_fin = $request->input('fecha_fin');
+        $filtro_inicio_db = !empty($filtro_inicio) ? Carbon::createFromFormat('Y-m-d', $filtro_inicio)->format('d/m/Y') : null;//Declaración para los filtros 
+        $filtro_fin_db = !empty($filtro_fin) ? Carbon::createFromFormat('Y-m-d', $filtro_fin)->format('d/m/Y') : null;
+
         $id=auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
         $empresa = $cargos->empresa;
@@ -601,13 +608,21 @@ class SolicitudController extends Controller
             $empleado = Empresa::all()->pluck('id_usuario')->toArray();
             $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
             $usuarios = personas::WhereIn('id',$empleado)->get();
-            $permisos = permisos::whereNotNull('firma_th')->get();
+            $permisos = permisos::whereNotNull('firma_th')
+            ->where(function ($query) use ($filtro_inicio_db, $filtro_fin_db){
+                if (!empty($filtro_inicio_db) && !empty($filtro_fin_db)){
+                    $query->whereBetween(DB::raw("STR_TO_DATE(fecha_solicitud, '%d/%m/%Y')"), [
+                        Carbon::createFromFormat('d/m/Y', $filtro_inicio_db)->startOfDay(),
+                        Carbon::createFromFormat('d/m/Y', $filtro_fin_db)->endOfDay(),
+                    ]);
+                }
+            })->get();
             /* $delete = permisos::where('id_usuario', null)->get(); */
-            return view('th.archivo', compact('permisos', 'usuarios', 'especificaciones'));
+            return view('th.archivo', compact('permisos', 'usuarios', 'especificaciones', 'filtro_inicio', 'filtro_fin'));
         }else if($car === '1' || $car === '2'|| $car === '3'|| $car === '4' || $car === '5'){ //Condicion para mostrar mensaje de error controlado
             return redirect('/Error');
-    }
-    return view('th.princial');
+        }
+        return view('th.princial');
     }
     public function firmar(Request $request)
     {

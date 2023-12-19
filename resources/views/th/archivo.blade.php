@@ -19,8 +19,17 @@
             </div>
         </nav>
         <div class="container">
-            <h2>Aquí va los permisos firmados y registrados hasta la fecha</h2><br><br>
+            <h2>Permisos firmados y registrados hasta la fecha</h2><br>
             <div class="buttons">
+                <form>
+                    <div class="conjunto">
+                        <h7 name="titulo" id="titulo"class="titulo"> Fecha inicio:</h7>
+                        <h7 name="titulo2" id="titulo2"class="titulo2"> Fecha fin:</h7>
+                    </div>
+                    <input type="date" class="fecha_inicio" name="fecha_inicio" id="fecha_inicio" value="{{ $filtro_inicio }}">
+                    <input type="date" class="fecha_fin" name="fecha_fin" id="fecha_fin" value="{{ $filtro_fin }}">
+                    <button class="btn btn-warning btn-sm" id="boton_buscar" type="submit" >Buscar</button><br><br>
+                </form>
                 <form action="{{ route('ruta_exportar')}}" method="post">
                     @csrf
                     <input type="button"  value="Seleccionar todo" class="btn btn-warning btn-sm botton" id="seleccionarTodo">
@@ -76,7 +85,7 @@
                                                     @endforeach
                                                 </td>
                                                 <td>
-                                                {{ $permiso->estado_solicitud }}
+                                                    {{ $permiso->estado_solicitud }}
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('ruta_descargar', ['id' => $permiso->id]) }}" name="ide" id="ide{{ $permiso->id }}" ><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
@@ -91,8 +100,5 @@
                 </form>
             </div><br>
         </div>
-<script>
-
-</script>
     </body>
 </html>
