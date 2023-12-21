@@ -15,7 +15,7 @@
     <body>
         <nav class="navbar" style="background-color: rgba(115,188,220,255);">
             <div class="container-fluid">
-                <h3>Revisar y aprobar es lo correcto</h3>
+                <h3>Revisar y aprobar</h3>
                 <a href="{{ route('ruta_volver3')}}" class="btn btn-light" id="cerrar">Volver</a>
             </div>
         </nav>

@@ -23,9 +23,12 @@ class SolicitudController extends Controller
     }
     public function login_inicio(Request $request)
     {
-        $usuario = personas::where('correo', $request->email)->first();
+        $usuario = personas::where('correo', $request->email)->where('habilitar', 1)->first();
         if (!$usuario) {
             return back()->withErrors(['email' => 'El correo no existe']);// El correo no existe, muestra un mensaje de error
+        }
+        if($usuario->habilitar == 0){
+            return back()->withErrors(['email' => 'El usuario ya no existe']);
         }
         if (Hash::check($request->password, $usuario->password)) {
             $token = auth()->login($usuario);// Obtener el token de acceso del usuario
@@ -36,6 +39,9 @@ class SolicitudController extends Controller
             $empresaTipo = $empresa->empresa;
             $area = $empresa->area;
             $cargo = $empresa->cargo;
+            if(in_array($empresaTipo,['0'])){
+                return view('admin.view');
+            }
             if (in_array($empresaTipo, ['1', '2', '3'])) {
                 if (in_array($area, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'])) {
                     if ($cargo === '1') {
@@ -68,6 +74,7 @@ class SolicitudController extends Controller
         $registro -> correo = $request -> correo;
         $registro -> password = bcrypt($request->contrasena);//Metodo para encriptar la contraseña por el metodo "Hash"
         $registro -> cedula = $request -> cedula;
+        $registro -> habilitar = 1;
         if($registro->nombre === null){
             return redirect('/Register');
         }else{
@@ -119,7 +126,7 @@ class SolicitudController extends Controller
     public function permisos(Request $request)
     {
         $id=auth()->user()->id;
-        $usuario =personas::where('id', $id)->first();
+        $usuario =personas::where('id', $id)->where('habilitar', 1)->first();
         $id_usuario= $usuario->id;
         $cargo= empresa::where('id_usuario', $id)->first();
         $id_cargo= $cargo->id;//Asignación del cargo
@@ -159,7 +166,7 @@ class SolicitudController extends Controller
         if($firma_th == null){
             $firma_th = 'descarga.png';
         }
-        $datos_persona= personas::where('id', $id_user)->first();
+        $datos_persona= personas::where('id', $id_user)->where('habilitar', 1)->first();
         $nombre = $datos_persona->nombre;
         $cedula = $datos_persona->cedula;
         $datos_cargo = empresa::where('id_usuario', $id_user)->first();
@@ -219,7 +226,7 @@ class SolicitudController extends Controller
         $fecha_fin = $request->session()->get('fecha_fin');
         $justificacion = $request->session()->get('justificacion');
         $id =auth()->user()->id;
-        $usuario = personas::where('id', $id)->first();//Datos sacados de la DB usuarios
+        $usuario = personas::where('id', $id)->where('habilitar', 1)->first();//Datos sacados de la DB usuarios
         $nombre = $usuario->nombre;
         $cedula = $usuario->cedula;
         $cargo = Empresa::where('id_usuario', $id)->first();//Datos sacados de la DB empresa
@@ -270,7 +277,7 @@ class SolicitudController extends Controller
         $car = $cargos->cargo;
         $empleado = Empresa::where('empresa', $empresa)->where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
-        $usuarios = personas::whereIn('id', $empleado)->get();
+        $usuarios = personas::whereIn('id', $empleado)->get()->where('habilitar', 1);
         $permisos = permisos::whereIn('id_usuario', $empleado)->orderby('fecha_solicitud','asc')->get();
         return view('lider.solicitud', compact('permisos', 'usuarios', 'especificaciones'));
     }
@@ -286,7 +293,7 @@ class SolicitudController extends Controller
         $car = $cargos->cargo;
         $empleado = Empresa::where('empresa', $empresa)->where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
-        $usuarios = personas::whereIn('id', $empleado)->get();
+        $usuarios = personas::whereIn('id', $empleado)->where('habilitar', 1)->get();
         $permisos = permisos::whereIn('id_usuario', $empleado)->where('estado_solicitud', 'Pendiente')->orderby('fecha_solicitud','asc')->get();
         return view('lider.solicitudes', compact('permisos', 'usuarios', 'especificaciones'));
     }
@@ -338,7 +345,7 @@ class SolicitudController extends Controller
             } else {
                 $file_th = null;
             }
-            $persons = personas::where('id', $request->usuario_id)->get();//Función para tomar el nombre del solicitante del permiso.
+            $persons = personas::where('id', $request->usuario_id)->where('habilitar', 1)->get();//Función para tomar el nombre del solicitante del permiso.
             foreach($persons as $person){
                 $per = $person->nombre;
             }
@@ -376,9 +383,8 @@ class SolicitudController extends Controller
             }
         }
     }
-    public function volver_principal(Request $request)
-    //Desde la solicitud de permisos, volver a la vista según corresponda
-    {
+    public function volver_principal()
+    {//Desde la solicitud de permisos, volver a la vista según corresponda
         $id =auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
         $cargo= $cargos->cargo;
@@ -403,7 +409,7 @@ class SolicitudController extends Controller
         $actualizar = permisos::where('id', $ide)->first();
         $permiso_id = $actualizar->id;
         $id=auth()->user()->id;
-        $usuario =personas::where('id', $id)->first();
+        $usuario =personas::where('id', $id)->where('habilitar', 1)->first();
         $id_usuario= $usuario->id;
         $cargo= empresa::where('id_usuario', $id)->first();
         $id_cargo= $cargo->id;//Asignación del cargo
@@ -418,7 +424,7 @@ class SolicitudController extends Controller
         $actualizar = permisos::where('id', $ide)->first();
         $permiso_id = $actualizar->id;
         $id=auth()->user()->id;
-        $usuario =personas::where('id', $id)->first();
+        $usuario =personas::where('id', $id)->where('habilitar', 1)->first();
         $id_usuario= $usuario->id;
         $cargo= empresa::where('id_usuario', $id)->first();
         $id_cargo= $cargo->id;//Asignación del cargo
@@ -453,7 +459,7 @@ class SolicitudController extends Controller
         $image_e = public_path('./image_e/'. $firma_e);
         $image_j = public_path('./image_j/'. $firma_j);
         $image_th = public_path('./image_th/'. $firma_th);
-        $usuario =personas::where('id', $usuario_id)->first();
+        $usuario =personas::where('id', $usuario_id)->where('habilitar', 1)->first();
         $nombre = $usuario->nombre;
         $cedula = $usuario->cedula;
         $cargo = Empresa::where('id_usuario', $usuario_id)->first();
@@ -582,7 +588,7 @@ class SolicitudController extends Controller
         if($car === '6'){
             $empleado = Empresa::all()->pluck('id_usuario')->toArray();
             $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
-            $usuarios = personas::WhereIn('id',$empleado)->get();
+            $usuarios = personas::WhereIn('id',$empleado)->where('habilitar', 1)->get();
             $permisos = permisos::whereNotNull('firma_jefe')->where('firma_th', null)->get();
             return view('th.revisar', compact('permisos', 'usuarios', 'especificaciones'));
         }else if($car === '1' || $car === '2'|| $car === '3'|| $car === '4' || $car === '5'){
@@ -607,7 +613,7 @@ class SolicitudController extends Controller
         if($car === '6'){
             $empleado = Empresa::all()->pluck('id_usuario')->toArray();
             $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
-            $usuarios = personas::WhereIn('id',$empleado)->get();
+            $usuarios = personas::WhereIn('id',$empleado)->get(); //Poner el 'Where' Para filtrar entre los habilitados y no habilitados.
             $permisos = permisos::whereNotNull('firma_th')
             ->where(function ($query) use ($filtro_inicio_db, $filtro_fin_db){
                 if (!empty($filtro_inicio_db) && !empty($filtro_fin_db)){
@@ -633,7 +639,7 @@ class SolicitudController extends Controller
         $actualizar = permisos::where('id', $ide)->first();
         $permiso_id = $actualizar->id;
         $id=auth()->user()->id;
-        $usuario =personas::where('id', $id)->first();
+        $usuario =personas::where('id', $id)->where('habilitar', 1)->first();
         $id_usuario= $usuario->id;
         $cargo= empresa::where('id_usuario', $id)->first();
         $id_cargo = $cargo->id;//Asignación del cargo
@@ -678,7 +684,7 @@ class SolicitudController extends Controller
         }
         $user =[];
         foreach($id_usuario as $id){
-            $user = personas::where('id', $id)->get();
+            $user = personas::where('id', $id)->where('habilitar', 1)->get();
             $users[] = $user;
         }
         foreach($users as $personas){
@@ -789,7 +795,7 @@ class SolicitudController extends Controller
         $cont = count($boxes);
         $user =[];
         foreach($id_user as $id){
-            $user = personas::where('id', $id)->get();
+            $user = personas::where('id', $id)->where('habilitar', 1)->get();
             $users[] = $user;
         }
         foreach($users as $personas){

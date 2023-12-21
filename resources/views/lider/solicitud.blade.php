@@ -18,7 +18,7 @@
             </div>
         </nav>
         <div class="container">
-            <h2>Aquí va los permisos solicitados hasta la fecha</h2><br><br>
+            <h2>Permisos solicitados</h2><br><br>
             <div class="collapse show" id="collapseTable">
                 <div class="table-container">
                     <table>

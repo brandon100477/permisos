@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('verificar_correo'); /* Verifica, confirma y valida el email si luego toca recuperarla */
             $table->string('password');
             $table->string('cedula', 20);
+            $table->string('habilitar', 5);
             $table->rememberToken();/* Deja la sesión iniciada */
             $table->timestamps(); /* Created_at and Update_at */
         });
