@@ -27,7 +27,7 @@
                             <th>Nombre</th>
                             <th>Fecha de solicitud</th>
                             <th>Especificación de cargo</th>
-                            <th>Aprobar / Rechazar</th>
+                            <th>Revisar</th>
                         </tr>
                         @foreach ($usuarios as $usuario)
                             @foreach ($permisos as $permiso)

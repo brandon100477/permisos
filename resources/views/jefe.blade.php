@@ -17,7 +17,7 @@
                     <div class="col-md-12">
                         <div class="container"> 
                             <h4 id="h4">Ver los registros pendientes</h4>
-                            <h4 id="h4">Ver todos los registros de empleados</h4>
+                            <h4 id="h4">Previsualizar los permisos</h4>
                             <div>
                                 <a href="{{ route('ruta_solicitudes') }}" id="butons">Ver</a>
                             </div>

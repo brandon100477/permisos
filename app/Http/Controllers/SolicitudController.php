@@ -261,6 +261,7 @@ class SolicitudController extends Controller
     }
     public function solicitud()
     {
+        /* Condicional para los gerentes y vicepresidente */
         $id = auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
         if($cargos->cargo ==='1'){ //Condicion para mostrar mensaje de error controlado
@@ -269,7 +270,7 @@ class SolicitudController extends Controller
         $empresa = $cargos->empresa;
         $area = $cargos->area;
         $car = $cargos->cargo;
-        $empleado = Empresa::where('empresa', $empresa)->where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
+        $empleado = Empresa::/* where('empresa', $empresa)-> */where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
         $usuarios = personas::whereIn('id', $empleado)->get()->where('habilitar', 1);
         $permisos = permisos::whereIn('id_usuario', $empleado)->orderby('fecha_solicitud','asc')->get();
@@ -277,6 +278,7 @@ class SolicitudController extends Controller
     }
     public function solicitudes()
     {
+        /* Condicional para los gerentes y vicepresidente */
         $id = auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
         if($cargos->cargo ==='1'){ //Condicion para mostrar mensaje de error controlado
@@ -339,10 +341,6 @@ class SolicitudController extends Controller
             } else {
                 $file_th = null;
             }
-            $persons = personas::where('id', $request->usuario_id)->where('habilitar', 1)->get();//Función para tomar el nombre del solicitante del permiso.
-            foreach($persons as $person){
-                $per = $person->nombre;
-            }
             $fecha_actual = date('d/m/Y');
             $registro = new permisos();
             $registro -> id_usuario = $request -> usuario_id;
@@ -360,7 +358,6 @@ class SolicitudController extends Controller
             $registro -> observaciones = $request-> observaciones;
             $registro -> estado_solicitud = $estado;
             $registro -> p_c_l = $request->pcl;
-            /* registro ->nuevo campo = $per */
             $registro->save();
             $cargos = Empresa::where('id', $request->cargo_id)->first();
             $cargo= $cargos->cargo;
@@ -485,7 +482,7 @@ class SolicitudController extends Controller
         $car = $cargos[$cargo->cargo] ?? 'Área Desconocida';
         $especifi = $cargo->especificacion;
         $id = auth()->user()->id;
-        $consultas = Empresa::where('id', $id)->first();
+        $consultas = Empresa::where('id_usuario', $id)->first();
         $consulta = $consultas->cargo;
         if($accion === 'prevista'){
             $pdf = PDF::loadView('descargar', compact('obs','remunerado','image_th','image_j','image_e','firma_th','firma_j','firma_e','justificacion','cedula','hora_inicio','hora_fin','fecha_inicio','fecha_fin','pcl','fecha_solicitud','nombre','empresa','car','especifi','estado', 'image_logo'));            
@@ -510,7 +507,9 @@ class SolicitudController extends Controller
                 $datos_actualizar -> remunerado = $request -> adicional;
                 $datos_actualizar -> firma_th = $file_th;
                 $datos_actualizar -> save();
+                
                 if(in_array($consulta,['2','3','4','5'])){
+                   
                     return redirect('/Solicitud-jefe');
                 }else if(in_array($consulta,['6'])){
                     return redirect('/Autorizar');
