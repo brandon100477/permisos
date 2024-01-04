@@ -43,7 +43,7 @@ class SolicitudController extends Controller
                 return view('admin.view');
             }
             if (in_array($empresaTipo, ['1', '2', '3'])) {
-                if (in_array($area, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'])) {
+                if (in_array($area, ['1', '2', '3', '4', '5', '6', '7', '8', '9'])) {
                     if ($cargo === '1') {
                         return view('empleado.empleado');
                     }else if (in_array($cargo, ['2', '3', '4', '5'])) {
@@ -177,18 +177,14 @@ class SolicitudController extends Controller
         ];
         $empresa = $empresas[$datos_cargo->empresa] ?? 'Empresa Desconocida';
         $areas = [//Asignación de areas
-            '1' => 'Asistencial',
-            '2' => 'TI (sistemas)',
-            '3' => 'Talento Humano',
-            '4' => 'Contabilidad',
-            '5' => 'Cartera',
-            '6' => 'Administrativa',
-            '7' => 'Facturación',
-            '8' => 'Comercial',
-            '9' => 'Planeación',
-            '10' => 'Servicio al cliente',
-            '11' => 'Sistema Integrado de gestión (Calidad)',
-            '12' => 'Gerencia médica',
+            '1' => 'Administrativo',
+            '2' => 'Asistencial',
+            '3' => 'Comercial',
+            '4' => 'Financiera',
+            '5' => 'Ingenieria y Biomedica',
+            '6' => 'Operaciones y Servicio',
+            '7' => 'Talento Humano',
+            '8' => 'Tegnologia de la Inf',
         ];
         $cargos = [
             '1' => 'Empresario',
@@ -196,6 +192,7 @@ class SolicitudController extends Controller
             '3' => 'Director',
             '4' => 'Gerente',
             '5' => 'Vicepresidente',
+            '6' => 'Lider T.H',
         ];
         $car = $cargos[$datos_cargo->cargo] ?? 'Área Desconocida';
         $area = $areas[$datos_cargo->area] ?? 'Área Desconocida';
@@ -237,18 +234,14 @@ class SolicitudController extends Controller
         ];
         $empresa = $empresas[$cargo->empresa] ?? 'Empresa Desconocida';
         $areas = [//Asignación de areas
-            '1' => 'Asistencial',
-            '2' => 'TI (sistemas)',
-            '3' => 'Talento Humano',
-            '4' => 'Contabilidad',
-            '5' => 'Cartera',
-            '6' => 'Administrativa',
-            '7' => 'Facturación',
-            '8' => 'Comercial',
-            '9' => 'Planeación',
-            '10' => 'Servicio al cliente',
-            '11' => 'Sistema Integrado de gestión (Calidad)',
-            '12' => 'Gerencia médica',
+            '1' => 'Administrativo',
+            '2' => 'Asistencial',
+            '3' => 'Comercial',
+            '4' => 'Financiera',
+            '5' => 'Ingenieria y Biomedica',
+            '6' => 'Operaciones y Servicio',
+            '7' => 'Talento Humano',
+            '8' => 'Tegnologia de la Inf',
         ];
         $cargos = [
             '1' => 'Empresario',
@@ -256,6 +249,7 @@ class SolicitudController extends Controller
             '3' => 'Director',
             '4' => 'Gerente',
             '5' => 'Vicepresidente',
+            '6' => 'Lider T.H',
         ];
         $car = $cargos[$cargo->cargo] ?? 'Área Desconocida';
         $area = $areas[$cargo->area] ?? 'Área Desconocida';
@@ -469,18 +463,14 @@ class SolicitudController extends Controller
             '3' => 'Diaxme Salud',
         ];
         $areas = [//Asignación de areas
-            '1' => 'Asistencial',
-            '2' => 'TI (sistemas)',
-            '3' => 'Talento Humano',
-            '4' => 'Contabilidad',
-            '5' => 'Cartera',
-            '6' => 'Administrativa',
-            '7' => 'Facturación',
-            '8' => 'Comercial',
-            '9' => 'Planeación',
-            '10' => 'Servicio al cliente',
-            '11' => 'Sistema Integrado de gestión (Calidad)',
-            '12' => 'Gerencia médica',
+            '1' => 'Administrativo',
+            '2' => 'Asistencial',
+            '3' => 'Comercial',
+            '4' => 'Financiera',
+            '5' => 'Ingenieria y Biomedica',
+            '6' => 'Operaciones y Servicio',
+            '7' => 'Talento Humano',
+            '8' => 'Tegnologia de la Inf',
         ];
         $cargos = [
             '1' => 'Empresario',
@@ -488,6 +478,7 @@ class SolicitudController extends Controller
             '3' => 'Director',
             '4' => 'Gerente',
             '5' => 'Vicepresidente',
+            '6' => 'Lider T.H',
         ];
         $empresa = $empresas[$cargo->empresa] ?? 'Empresa Desconocida';
         $area = $areas[$cargo->area] ?? 'Área Desconocida';
@@ -654,18 +645,14 @@ class SolicitudController extends Controller
             dd("Error. Check vacio");
         }
         $areas = [//Asignación de areas
-            '1' => 'Asistencial',
-            '2' => 'TI (sistemas)',
-            '3' => 'Talento Humano',
-            '4' => 'Contabilidad',
-            '5' => 'Cartera',
-            '6' => 'Administrativa',
-            '7' => 'Facturación',
-            '8' => 'Comercial',
-            '9' => 'Planeación',
-            '10' => 'Servicio al cliente',
-            '11' => 'Sistema Integrado de gestión (Calidad)',
-            '12' => 'Gerencia médica',
+            '1' => 'Administrativo',
+            '2' => 'Asistencial',
+            '3' => 'Comercial',
+            '4' => 'Financiera',
+            '5' => 'Ingenieria y Biomedica',
+            '6' => 'Operaciones y Servicio',
+            '7' => 'Talento Humano',
+            '8' => 'Tegnologia de la Inf',
         ];
         $permisos = permisos::whereIn('id', $boxes)->get();
         foreach($permisos as $permiso){
@@ -810,25 +797,22 @@ class SolicitudController extends Controller
             '3' => 'Diaxme Salud',
         ];
         $areas = [//Asignación de areas
-            '1' => 'Asistencial',
-            '2' => 'TI (sistemas)',
-            '3' => 'Talento Humano',
-            '4' => 'Contabilidad',
-            '5' => 'Cartera',
-            '6' => 'Administrativa',
-            '7' => 'Facturación',
-            '8' => 'Comercial',
-            '9' => 'Planeación',
-            '10' => 'Servicio al cliente',
-            '11' => 'Sistema Integrado de gestión (Calidad)',
-            '12' => 'Gerencia médica',
+            '1' => 'Administrativo',
+            '2' => 'Asistencial',
+            '3' => 'Comercial',
+            '4' => 'Financiera',
+            '5' => 'Ingenieria y Biomedica',
+            '6' => 'Operaciones y Servicio',
+            '7' => 'Talento Humano',
+            '8' => 'Tegnologia de la Inf',
         ];
-        $cargos = [//Asignación de cargos
+        $cargos = [
             '1' => 'Empresario',
             '2' => 'Líder',
             '3' => 'Director',
             '4' => 'Gerente',
             '5' => 'Vicepresidente',
+            '6' => 'Lider T.H',
         ];
         $data =[];
         foreach($id_cargo as $ids){

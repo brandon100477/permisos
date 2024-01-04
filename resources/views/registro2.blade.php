@@ -43,18 +43,15 @@
                 <div class="selectdiv">
                     <select type="submit" id="area" name="area" class="select" value="" required>	
                         <option selected readonly value="">Seleccione un area</option>
-                        <option value="1">Asistencial</option>
-                        <option value="2">TI (Sistemas)</option>
-                        <option value="3">Talento Humano</option>
-                        <option value="4">Contabilidad</option>
-                        <option value="5">Cartera</option>
-                        <option value="6">Administrativa</option>
-                        <option value="7">Facturación</option>
-                        <option value="8">Comercial</option>
-                        <option value="9">Planeación</option>
-                        <option value="10">Servicio al cliente</option>
-                        <option value="11">Sistema Integrado de gestión (Calidad)</option>
-                        <option value="12">Gerencia médica</option>
+                        <option value="1">Administrativo</option>
+                        <option value="2">Asistencial</option>
+                        <option value="3">Comercial</option>
+                        <option value="4">Financiera</option>
+                        <option value="5">Ingenieria y Biomedica</option>
+                        <option value="6">Operaciones y Servicio</option>
+                        <option value="7">Talento Humano</option>
+                        <option value="8">Tegnologia de la Inf</option>
+
                     </select><br>
                 </div>
                 <label name="cargo" id="cargo" class="textos"><h5>Seleccione su cargo:</h5></label><br>
