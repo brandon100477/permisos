@@ -285,7 +285,7 @@ class SolicitudController extends Controller
         $empresa = $cargos->empresa;
         $area = $cargos->area;
         $car = $cargos->cargo;
-        $empleado = Empresa::where('empresa', $empresa)->where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
+        $empleado = Empresa::where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
         $usuarios = personas::whereIn('id', $empleado)->where('habilitar', 1)->get();
         $permisos = permisos::whereIn('id_usuario', $empleado)->where('estado_solicitud', 'Pendiente')->orderby('fecha_solicitud','asc')->get();
