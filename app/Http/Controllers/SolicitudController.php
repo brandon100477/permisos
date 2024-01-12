@@ -261,6 +261,7 @@ class SolicitudController extends Controller
     }
     public function solicitud()
     {
+        $areas = [1, 3, 4, 5, 7, 8];
         /* Condicional para los gerentes y vicepresidente */
         $id = auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
@@ -270,6 +271,16 @@ class SolicitudController extends Controller
         $empresa = $cargos->empresa;
         $area = $cargos->area;
         $car = $cargos->cargo;
+        if($id === '287'){
+            $empleado = Empresa::where('area', $areas)
+            ->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
+            $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
+            $usuarios = personas::whereIn('id', $empleado)->get()->where('habilitar', 1);
+            $permisos = permisos::whereIn('id_usuario', $empleado)->orderby('fecha_solicitud','asc')->get();
+            return view('lider.solicitud', compact('permisos', 'usuarios', 'especificaciones'));
+        }
+
+
         $empleado = Empresa::/* where('empresa', $empresa)-> */where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
         $usuarios = personas::whereIn('id', $empleado)->get()->where('habilitar', 1);
@@ -278,6 +289,7 @@ class SolicitudController extends Controller
     }
     public function solicitudes()
     {
+        $areas = [1, 3, 4, 5, 7, 8];
         /* Condicional para los gerentes y vicepresidente */
         $id = auth()->user()->id;
         $cargos = Empresa::where('id_usuario', $id)->first();
@@ -287,6 +299,14 @@ class SolicitudController extends Controller
         $empresa = $cargos->empresa;
         $area = $cargos->area;
         $car = $cargos->cargo;
+        if($id === '287'){
+            $empleado = Empresa::where('area', $areas)
+            ->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
+            $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
+            $usuarios = personas::whereIn('id', $empleado)->get()->where('habilitar', 1);
+            $permisos = permisos::whereIn('id_usuario', $empleado)->orderby('fecha_solicitud','asc')->get();
+            return view('lider.solicitud', compact('permisos', 'usuarios', 'especificaciones'));
+        }
         $empleado = Empresa::where('area', $area)->where('cargo', $car - 1)->pluck('id_usuario')->toArray();
         $especificaciones = Empresa::whereIn('id_usuario', $empleado)->get();
         $usuarios = personas::whereIn('id', $empleado)->where('habilitar', 1)->get();
